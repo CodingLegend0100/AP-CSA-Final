@@ -6,7 +6,7 @@ public class Main {
         //Initialize the game window
         JFrame window = new JFrame("Game Window");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(400,600);
+        window.setSize(600,400);
         window.add(new GamePanel());
         window.setVisible(true);
     }

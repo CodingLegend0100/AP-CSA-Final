@@ -9,7 +9,7 @@ public class GamePanel extends JPanel implements Runnable {
     
     private final int FPS = 60;
 
-    Sprite player = new Sprite("assets/character.png",20,20);
+    Sprite player = new Sprite("assets/character.png",100,100);
 
     Thread gameThread;
 
@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void run(){
         //How this works
-        
         //Calculate nanoseconds between frames by
         //dividing nanoseconds (1 billion) in 1 second by the FPS
         int drawInterval = 1000000000/FPS;

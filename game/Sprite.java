@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 
 public class Sprite {
     private int x,y,width,height;
+    private double rotation; //Rotation in degrees
     private Image i;
 
     /**Create a sprite whose width and height will be inherited from the image's width and height */
@@ -46,9 +47,19 @@ public class Sprite {
     public int getWidth(){ return width; }
     public int getHeight(){ return height; }
     public Image getImage(){ return i; }
+    public int getCenterX(){ return x+width/2; }
+    public int getCenterY(){ return y+height/2; }
 
     /** Draws the sprite */
     public void draw(Graphics2D g){
+
+        int centerX = getCenterX();
+        int centerY = getCenterY();
+        double rotate = Math.toRadians(rotation);
+
+        g.rotate(rotate,centerX,centerY);
         g.drawImage(i,x,y,width,height,null);
+        g.rotate(-rotate,centerX,centerY);
+
     }
 }
