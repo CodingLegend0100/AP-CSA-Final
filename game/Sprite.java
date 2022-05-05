@@ -5,8 +5,9 @@ import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 
 public class Sprite {
-    private int x,y,width,height;
-    private double rotation; //Rotation in degrees
+    private double x, y;
+    private int width,height;
+    private int rotation; //Rotation in degrees
     private Image i;
 
     /**Create a sprite whose width and height will be inherited from the image's width and height */
@@ -42,13 +43,13 @@ public class Sprite {
     public void setHeight(int height){ this.height = height; }
     public void setImage(Image i){ this.i = i; }
 
-    public int getX(){ return x; }
-    public int getY(){ return y; }
+    public double getX(){ return x; }
+    public double getY(){ return y; }
     public int getWidth(){ return width; }
     public int getHeight(){ return height; }
     public Image getImage(){ return i; }
-    public int getCenterX(){ return x+width/2; }
-    public int getCenterY(){ return y+height/2; }
+    public int getCenterX(){ return (int)x+width/2; }
+    public int getCenterY(){ return (int)y+height/2; }
 
     /** Draws the sprite */
     public void draw(Graphics2D g){
@@ -58,7 +59,7 @@ public class Sprite {
         double rotate = Math.toRadians(rotation);
 
         g.rotate(rotate,centerX,centerY);
-        g.drawImage(i,x,y,width,height,null);
+        g.drawImage(i,(int)x,(int)y,width,height,null);
         g.rotate(-rotate,centerX,centerY);
 
     }
