@@ -1,5 +1,6 @@
 import game.Sprite;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -14,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     public GamePanel(){
+        setBackground(Color.BLACK);
         gameThread = new Thread(this);
     }
 
