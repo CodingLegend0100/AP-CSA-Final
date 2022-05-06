@@ -4,12 +4,14 @@ public class Player extends Entity {
     KeyInput k; //The key input handler
 
     public Player(KeyInput k){
-        super("assets/spaceship.png",200,200,50,50);
+        super("assets/spaceship.png",200,200,0.1);
         this.k = k;
     }
 
     public void update(){
-        //This is temporary
+        super.update();
+        //This is just for testing
+        rotationSpeed = 1;
         velocityX = 0;
         velocityY = 0;
         if (k.isKeyDown("W")) velocityY -= 2;
@@ -17,6 +19,5 @@ public class Player extends Entity {
         if (k.isKeyDown("A")) velocityX -= 2;
         if (k.isKeyDown("D")) velocityX += 2;
 
-        super.update(); //Use this to update the position and rotation
     }
 }
