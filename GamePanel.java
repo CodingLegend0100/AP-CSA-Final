@@ -1,4 +1,4 @@
-import game.Sprite;
+import game.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,13 +10,16 @@ public class GamePanel extends JPanel implements Runnable {
     
     private final int FPS = 60;
 
-    Sprite player = new Sprite("assets/character.png",100,100);
+    Entity player = new Entity("assets/character.png",100,100);
 
     Thread gameThread;
 
     public GamePanel(){
+        player.rotationSpeed = 1;
+
         setBackground(Color.BLACK);
         gameThread = new Thread(this);
+        gameThread.start();
     }
 
     public void run(){
@@ -48,13 +51,16 @@ public class GamePanel extends JPanel implements Runnable {
     /** Update positions of objects on the screen */
     public void update(){
 
+        player.update();
+
     }
 
 
     /** Draw objects to the screen */
     public void paintComponent(Graphics g){
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
-
+        
         player.draw(g2);
 
         g2.dispose(); //Get rid of the graphics when we are done
