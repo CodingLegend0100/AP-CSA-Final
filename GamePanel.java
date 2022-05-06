@@ -19,21 +19,22 @@ public class GamePanel extends JPanel implements Runnable {
     KeyInput keyListener = new KeyInput();
 
     Player player = new Player(keyListener);
-    Menu shop = new Menu();
+    Menu shop = new Menu(keyListener);
 
     Thread gameThread;
 
     public GamePanel(){
 
+        //Load images
         for (int i = 1; i <= 4; i++){
-            enemyImages[i] = Sprite.loadImage("assets/pirate"+i+".png");
+            enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
         setPreferredSize(new Dimension(900,600));
         addKeyListener(keyListener);
         setFocusable(true);
-
         setBackground(Color.BLACK);
+        
         gameThread = new Thread(this);
         gameThread.start();
     }
