@@ -1,5 +1,3 @@
-import game.*;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,12 +8,16 @@ public class GamePanel extends JPanel implements Runnable {
     
     private final int FPS = 60;
 
-    Entity player = new Entity("assets/character.png",100,100);
+    KeyInput keyListener = new KeyInput();
+
+    Player player = new Player(keyListener);
 
     Thread gameThread;
 
     public GamePanel(){
-        player.rotationSpeed = 1;
+
+        addKeyListener(keyListener);
+        setFocusable(true);
 
         setBackground(Color.BLACK);
         gameThread = new Thread(this);
