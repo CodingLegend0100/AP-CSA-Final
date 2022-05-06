@@ -1,6 +1,11 @@
+import game.Sprite;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -8,14 +13,23 @@ public class GamePanel extends JPanel implements Runnable {
     
     private final int FPS = 60;
 
+    private Image[] enemyImages = new Image[4];
+    private ArrayList<Sprite> enemies = new ArrayList<Sprite>();
+
     KeyInput keyListener = new KeyInput();
 
     Player player = new Player(keyListener);
+    Menu shop = new Menu();
 
     Thread gameThread;
 
     public GamePanel(){
 
+        for (int i = 1; i <= 4; i++){
+            enemyImages[i] = Sprite.loadImage("assets/pirate"+i+".png");
+        }
+
+        setPreferredSize(new Dimension(900,600));
         addKeyListener(keyListener);
         setFocusable(true);
 
@@ -50,9 +64,17 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void createEnemy(){
+        
+    }
+
+    public void createAsteroid(){
+
+    }
+
     /** Update positions of objects on the screen */
     public void update(){
-
+        if (shop.isOpen()) return;
         player.update();
 
     }
@@ -63,7 +85,13 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
         
+        for (Sprite e: enemies){
+            e.draw(g2);
+        }
+
         player.draw(g2);
+
+        shop.draw(g2);
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
