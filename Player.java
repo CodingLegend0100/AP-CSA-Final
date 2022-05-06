@@ -1,6 +1,6 @@
-import game.Entity;
+import game.Sprite;
 
-public class Player extends Entity {
+public class Player extends Sprite {
     KeyInput k; //The key input handler
 
     public Player(KeyInput k){
@@ -9,15 +9,11 @@ public class Player extends Entity {
     }
 
     public void update(){
-        super.update();
         //This is just for testing
-        rotationSpeed = 1;
-        velocityX = 0;
-        velocityY = 0;
-        if (k.isKeyDown("W")) velocityY -= 2;
-        if (k.isKeyDown("S")) velocityY += 2;
-        if (k.isKeyDown("A")) velocityX -= 2;
-        if (k.isKeyDown("D")) velocityX += 2;
+        if (k.isKeyDown("W")) y -= 2;
+        if (k.isKeyDown("S")) y += 2;
+        if (k.isKeyDown("A")) x -= 2;
+        if (k.isKeyDown("D")) x += 2;
 
     }
 }
