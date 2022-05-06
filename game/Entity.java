@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Image;
 
+/** An entity is a sprite that moves */
 public class Entity extends Sprite {
     protected double velocityX, velocityY;
     protected double rotationSpeed; //Degrees per frame
@@ -11,6 +12,12 @@ public class Entity extends Sprite {
     }
     public Entity(Image i, double x, double y) {
         super(i, x, y);
+    }
+    public Entity(String image, double x, double y,double scale) {
+        super(image, x, y,scale);
+    }
+    public Entity(Image i, double x, double y,double scale) {
+        super(i, x, y,scale);
     }
     public Entity(String image, double x, double y, int width, int height) {
         super(image, x, y, width, height);

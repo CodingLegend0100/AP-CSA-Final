@@ -11,14 +11,24 @@ public class Sprite {
     protected double rotation; //Rotation in degrees
     protected Image i;
 
-    /**Create a sprite whose width and height will be inherited from the image's width and height */
+    /**Create a sprite whose size will be inherited from the image's width and height */
     public Sprite(String image,double x,double y){
         this(loadImage(image),x,y);
     }
 
-    /**Create a sprite whose width and height will be inherited from the image's width and height */
+    /**Create a sprite whose size will be inherited from the image's width and height */
     public Sprite(Image i,double x,double y){
         this(i,x,y,i.getWidth(null),i.getHeight(null));
+    }
+
+    /**Create a sprite whose size will be inherited from the image's scaled size */
+    public Sprite(String image,double x,double y,double scale){
+        this(loadImage(image),x,y,scale);
+    }
+    
+    /**Create a sprite whose size will be inherited from the image's scaled size */
+    public Sprite(Image i,double x,double y,double scale){
+        this(i,x,y,(int)(i.getWidth(null)*scale),(int)(i.getHeight(null)*scale));
     }
 
     /**Create a sprite with the predetermined position and size */
