@@ -66,6 +66,8 @@ public class Sprite {
     public void setRotation(double degrees){ this.rotation = degrees; }
     public void setImage(Image i){ this.i = i; }
 
+    public void update(){}
+
     /** Draws the sprite */
     public void draw(Graphics2D g){
         if (i == null) return; //Dont draw if there is no image
