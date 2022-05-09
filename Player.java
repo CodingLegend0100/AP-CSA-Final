@@ -9,7 +9,7 @@ public class Player extends Sprite {
     private double glide = 0.98;
 
     public Player(KeyInput k){
-        super("assets/spaceship.png",200,200,0.1);
+        super("assets/spaceship.png",100,100,0.1);
         this.k = k;
     }
 
