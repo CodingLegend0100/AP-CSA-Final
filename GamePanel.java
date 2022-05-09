@@ -45,14 +45,14 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
 
-        enemies.add(new Sprite(enemyImages[0],100,100,0.3));
-        enemies.add(new Sprite(enemyImages[1],150,100,0.3));
-        enemies.add(new Sprite(enemyImages[2],200,100,0.3));
-        enemies.add(new Sprite(enemyImages[3],250,100,0.3));
+        enemies.add(new Enemy(enemyImages[0],100,100,player));
+        enemies.add(new Enemy(enemyImages[1],150,100,player));
+        enemies.add(new Enemy(enemyImages[2],200,100,player));
+        enemies.add(new Enemy(enemyImages[3],250,100,player));
 
-        asteroids.add(new Sprite(asteroidImages[0],100,200,0.3));
-        asteroids.add(new Sprite(asteroidImages[1],150,200,0.3));
-        asteroids.add(new Sprite(asteroidImages[2],200,200,0.3));
+        asteroids.add(new Asteroid(asteroidImages[0],100,200,player));
+        asteroids.add(new Asteroid(asteroidImages[1],150,200,player));
+        asteroids.add(new Asteroid(asteroidImages[2],200,200,player));
     }
 
     public void run(){
@@ -104,7 +104,11 @@ public class GamePanel extends JPanel implements Runnable {
         createAsteroid();
         player.update();
         removeAsteroids();
-        
+
+        for (Sprite e : enemies){
+            e.update();
+        }
+
     }
 
 
