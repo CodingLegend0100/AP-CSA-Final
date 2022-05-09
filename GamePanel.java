@@ -15,6 +15,8 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
+    private Image[] asteroidImages = new Image[4];
+
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
 
@@ -26,12 +28,15 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     public GamePanel(){
-
+        
         //Load images
         for (int i = 1; i <= 4; i++){
             enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
+        for (int i = 1; i < 4; i++){
+            asteroidImages[i-1] = Sprite.loadImage("assets/asteroid"+i+".png");
+        }
         setPreferredSize(new Dimension(width, height));
         addKeyListener(keyListener);
         setFocusable(true);
@@ -45,6 +50,9 @@ public class GamePanel extends JPanel implements Runnable {
         enemies.add(new Sprite(enemyImages[2],200,100,0.3));
         enemies.add(new Sprite(enemyImages[3],250,100,0.3));
 
+        asteroids.add(new Sprite(asteroidImages[0],100,200,0.3));
+        asteroids.add(new Sprite(asteroidImages[1],150,200,0.3));
+        asteroids.add(new Sprite(asteroidImages[2],200,200,0.3));
     }
 
     public void run(){
@@ -80,7 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Create asteroids off the edge of the screen
     //Assignee: Cole Kemp
     public void createAsteroid(){
-
+        
+        
     }
 
     //TODO: Remove asteroids too far off the edge of the screen
@@ -95,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
         createAsteroid();
         player.update();
         removeAsteroids();
-
+        
     }
 
 
@@ -108,11 +117,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.translate(-player.getX()+width/2,-player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
-
+        
         for (Sprite e: enemies){
             e.draw(g2);
         }
-
+        for (Sprite a: asteroids){
+            a.draw(g2);
+        }
         //shop.draw(g2);
 
         long drawTime = System.nanoTime() - drawStart;
