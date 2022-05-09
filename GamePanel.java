@@ -40,10 +40,10 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
 
-        enemies.add(new Sprite(enemyImages[0],100,100,0.3));
-        enemies.add(new Sprite(enemyImages[1],150,100,0.3));
-        enemies.add(new Sprite(enemyImages[2],200,100,0.3));
-        enemies.add(new Sprite(enemyImages[3],250,100,0.3));
+        enemies.add(new Enemy(enemyImages[0],100,100,player));
+        enemies.add(new Enemy(enemyImages[1],150,100,player));
+        enemies.add(new Enemy(enemyImages[2],200,100,player));
+        enemies.add(new Enemy(enemyImages[3],250,100,player));
 
     }
 
@@ -95,6 +95,10 @@ public class GamePanel extends JPanel implements Runnable {
         createAsteroid();
         player.update();
         removeAsteroids();
+
+        for (Sprite e : enemies){
+            e.update();
+        }
 
     }
 
