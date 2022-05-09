@@ -1,4 +1,5 @@
 import game.Sprite;
+import javafx.scene.transform.Scale;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,10 +16,10 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
-    private Image[] asteroidImages = new Image[4];
+    
 
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();
-    private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
+    
 
     KeyInput keyListener = new KeyInput();
 
@@ -34,9 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
             enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
-        for (int i = 1; i < 4; i++){
-            asteroidImages[i-1] = Sprite.loadImage("assets/asteroid"+i+".png");
-        }
+        
         setPreferredSize(new Dimension(width, height));
         addKeyListener(keyListener);
         setFocusable(true);
@@ -50,9 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         enemies.add(new Enemy(enemyImages[2],200,100,player));
         enemies.add(new Enemy(enemyImages[3],250,100,player));
 
-        asteroids.add(new Asteroid(asteroidImages[0],100,200,player));
-        asteroids.add(new Asteroid(asteroidImages[1],150,200,player));
-        asteroids.add(new Asteroid(asteroidImages[2],200,200,player));
+        
     }
 
     public void run(){
@@ -60,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
         //Calculate nanoseconds between frames by
         //dividing nanoseconds (1 billion) in 1 second by the FPS
         int drawInterval = 1000000000/FPS;
-
+ 
         long lastTime = System.nanoTime(); //The last time checked
         long currentTime; //The current time
 
@@ -125,9 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
         for (Sprite e: enemies){
             e.draw(g2);
         }
-        for (Sprite a: asteroids){
-            a.draw(g2);
-        }
+        
         //shop.draw(g2);
 
         long drawTime = System.nanoTime() - drawStart;
