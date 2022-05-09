@@ -10,10 +10,10 @@ public class Sprite {
     protected int width,height;
     protected double rotation; //Rotation in degrees
     protected Image i;
-    //Fix?
-    public Sprite(){
+    
+    /** Creates a blank sprite */
+    public Sprite(){}
 
-    }
     /**Create a sprite whose size will be inherited from the image's width and height */
     public Sprite(String image,double x,double y){
         this(loadImage(image),x,y);
@@ -68,6 +68,12 @@ public class Sprite {
     public void setHeight(int height){ this.height = height; }
     public void setRotation(double degrees){ this.rotation = degrees; }
     public void setImage(Image i){ this.i = i; }
+
+    public boolean isColliding(Sprite s){
+        //If this.right > s.left && this.left < s.right && this.bottom > s.top && this.top < s.bottom
+        return x+width/2 > s.getX()-s.getWidth()/2 && x-width/2 < s.getX()+s.getWidth()/2 &&
+            y+height/2 > s.getY()-s.getHeight()/2 && y-height/2 < s.getY()+s.getHeight()/2;
+    }
 
     public void update(){}
 
