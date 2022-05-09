@@ -9,4 +9,7 @@ public class Enemy extends Sprite {
         super(i,x,y,0.3);
         this.target = target;
     }
+    public void update(){
+        rotation += (Math.toDegrees(Math.atan2(target.getX()-x,y-target.getY())));
+    }
 }
