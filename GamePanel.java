@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyInput keyListener = new KeyInput();
 
     Player player = new Player(keyListener);
-    Menu shop = new Menu(keyListener);
+    //Menu shop = new Menu(keyListener);
 
     Thread gameThread;
 
@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Update positions of objects on the screen */
     public void update(){
-        if (shop.isOpen()) return;
+        //if (shop.isOpen()) return;
         player.update();
 
     }
@@ -85,6 +85,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
+
+        long drawStart = System.nanoTime();
         
         for (Sprite e: enemies){
             e.draw(g2);
@@ -92,7 +94,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(g2);
 
-        shop.draw(g2);
+        //shop.draw(g2);
+
+        long drawTime = System.nanoTime() - drawStart;
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
