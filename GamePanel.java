@@ -11,10 +11,12 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
     
+    private final int width = 900, height = 600;
     private final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();
+    private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
 
     KeyInput keyListener = new KeyInput();
 
@@ -30,13 +32,19 @@ public class GamePanel extends JPanel implements Runnable {
             enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
-        setPreferredSize(new Dimension(900,600));
+        setPreferredSize(new Dimension(width, height));
         addKeyListener(keyListener);
         setFocusable(true);
         setBackground(Color.BLACK);
         
         gameThread = new Thread(this);
         gameThread.start();
+
+        enemies.add(new Sprite(enemyImages[0],100,100,0.3));
+        enemies.add(new Sprite(enemyImages[1],150,100,0.3));
+        enemies.add(new Sprite(enemyImages[2],200,100,0.3));
+        enemies.add(new Sprite(enemyImages[3],250,100,0.3));
+
     }
 
     public void run(){
@@ -69,14 +77,24 @@ public class GamePanel extends JPanel implements Runnable {
         
     }
 
+    //TODO: Create asteroids off the edge of the screen
+    //Assignee: Cole Kemp
     public void createAsteroid(){
+
+    }
+
+    //TODO: Remove asteroids too far off the edge of the screen
+    //Assignee: Cole Kemp
+    public void removeAsteroids(){
 
     }
 
     /** Update positions of objects on the screen */
     public void update(){
         //if (shop.isOpen()) return;
+        createAsteroid();
         player.update();
+        removeAsteroids();
 
     }
 
@@ -87,12 +105,13 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
 
         long drawStart = System.nanoTime();
-        
+
+        g2.translate(-player.getX()+width/2,-player.getY()+height/2); //Keep player in the center of the window
+        player.draw(g2);
+
         for (Sprite e: enemies){
             e.draw(g2);
         }
-
-        player.draw(g2);
 
         //shop.draw(g2);
 
