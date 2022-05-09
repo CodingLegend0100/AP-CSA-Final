@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
         setPreferredSize(new Dimension(width, height));
         addKeyListener(keyListener);
         setFocusable(true);
-        setBackground(Color.BLACK);
+        setBackground(new Color(10,10,10));
         
         gameThread = new Thread(this);
         gameThread.start();
