@@ -35,8 +35,9 @@ public class Player extends Sprite {
         if (k.isKeyDown("A")) rotation -= turnSpeed;
         if (k.isKeyDown("D")) rotation += turnSpeed;
     }
+    
     public void bounce(){
-        velX=-velX;
-        velY=-velY;
+        velX = -velX;
+        velY = -velY;
     }
 }
