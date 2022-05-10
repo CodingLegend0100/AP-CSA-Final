@@ -5,13 +5,12 @@ import java.awt.Graphics2D;
 
 public class SpaceStation extends Sprite {
 
-    public SpaceStation(){
-        super("",0,0);
-    }
+    double x = -100, y = -100;
+    int width = 200, height = 200;
 
     public void draw(Graphics2D g){
         g.setColor(Color.white);
-        g.fillRect(-100,-100,200,200);
+        g.fillRect((int)x,(int)y,width,height);
     }
     
 }

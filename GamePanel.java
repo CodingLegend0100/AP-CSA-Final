@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
-    //Menu shop = new Menu(keyListener);
+    Menu shop = new Menu();
 
     Thread gameThread;
 
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Update positions of objects on the screen */
     public void update(){
-        //if (shop.isOpen()) return;
+        if (shop.isOpen()) return;
 
         createAsteroid(); //Try creating an asteroid
 
@@ -125,9 +125,17 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+        if (player.isColliding(station)){
+            player.bounce();
+            shop.open();
+        }
     }
 
     public void keyPressed(String key){
+        System.out.println(key);
+        if (key.equals("Escape")){
+            shop.close();
+        }
 
     }
 
@@ -143,8 +151,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         long drawStart = System.nanoTime();
 
+        shop.draw(g2);
+
         g2.translate(-player.getX()+width/2,-player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
+
         for (Sprite a: asteroids){
             a.draw(g2);
         }
@@ -153,11 +164,13 @@ public class GamePanel extends JPanel implements Runnable {
             e.draw(g2);
         }
 
-        //shop.draw(g2);
         station.draw(g2);
 
         long drawTime = System.nanoTime() - drawStart;
         g2.drawString("Draw time (nano): "+drawTime,(int)player.getX()-width/2+5,(int)player.getY()-height/2+10);
+
+        g2.translate(player.getX()-width/2,player.getY()-height/2); //Translate origin back
+        shop.draw(g2);
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
