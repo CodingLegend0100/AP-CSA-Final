@@ -16,7 +16,6 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
-    
 
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();    
@@ -24,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyInput keyListener = new KeyInput();
 
     Player player = new Player(keyListener);
+    SpaceStation station = new SpaceStation();
     //Menu shop = new Menu(keyListener);
 
     Thread gameThread;
@@ -137,6 +137,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
         
         //shop.draw(g2);
+        station.draw(g2);
 
         long drawTime = System.nanoTime() - drawStart;
 
