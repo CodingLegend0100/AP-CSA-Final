@@ -1,5 +1,4 @@
 import game.Sprite;
-import javafx.scene.transform.Scale;
 
 import java.awt.Color;
 import java.awt.Dimension;
