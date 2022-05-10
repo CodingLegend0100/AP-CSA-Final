@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyInput keyListener = new KeyInput();
 
     Player player = new Player(keyListener);
+    SpaceStation station = new SpaceStation();
     //Menu shop = new Menu(keyListener);
 
     Thread gameThread;
@@ -141,6 +142,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         //shop.draw(g2);
+        station.draw(g2);
 
         //long drawTime = System.nanoTime() - drawStart;
 
