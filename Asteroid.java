@@ -12,8 +12,8 @@ public class Asteroid extends Sprite {
         }
     }
     
-    public Asteroid(double x, double y){
-        super(asteroidImages[(int)(Math.random()*asteroidImages.length)],x,y);
+    public Asteroid(double x, double y,double scale){
+        super(asteroidImages[(int)(Math.random()*asteroidImages.length)],x,y,scale);
     }
 
     public void update(){
