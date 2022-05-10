@@ -81,8 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Create asteroids off the edge of the screen
     //Assignee: Cole Kemp
     public void createAsteroid(){
-        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59)
-        return;
+        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59) return;
         double vert = player.getX()+height/2;
         double horz = player.getY()+width/2;
         asteroids.add(new Asteroid(vert,horz));
@@ -143,7 +142,8 @@ public class GamePanel extends JPanel implements Runnable {
         //shop.draw(g2);
         station.draw(g2);
 
-        //long drawTime = System.nanoTime() - drawStart;
+        long drawTime = System.nanoTime() - drawStart;
+        g2.drawString("Draw time (nano): "+drawTime,(int)player.getX()-width/2+5,(int)player.getY()-height/2+10);
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
