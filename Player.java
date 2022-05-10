@@ -9,7 +9,7 @@ public class Player extends Sprite {
     private double glide = 0.98;
 
     public Player(GamePanel.KeyInput k){
-        super("assets/spaceship.png",100,100,0.1);
+        super("assets/spaceship.png",150,150,0.1);
         this.k = k;
     }
   
@@ -18,8 +18,8 @@ public class Player extends Sprite {
         x += velX;
         y += velY;
 
-        double velocity = Math.sqrt(velX*velX+velY*velY); //Calculate magnitude of velocity vector
-        System.out.println(velocity);
+        //double velocity = Math.sqrt(velX*velX+velY*velY); //Calculate magnitude of velocity vector
+        //System.out.println(velocity);
 
         velX *= glide;
         velY *= glide;
