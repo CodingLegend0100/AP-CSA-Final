@@ -81,17 +81,12 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Create asteroids off the edge of the screen
     //Assignee: Cole Kemp
     public void createAsteroid(){
-        if(((int)(Math.random()*70+1))!=1)
+        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59)
         return;
         double vert = player.getX()+height/2;
         double horz = player.getY()+width/2;
         asteroids.add(new Asteroid(vert,horz));
-
-        //This will run every frame, maybe add a random number generator
-        //use player.get x,y
-        // 
-        //Create an asteroid that is off screen(relative to player position)
-
+        
         //Check if it is colliding with another asteroid
         
         //Add it to asteroids list
@@ -118,7 +113,13 @@ public class GamePanel extends JPanel implements Runnable {
         for (Sprite e : enemies){
             e.update();
         }
+        
+        for(Sprite x:asteroids){
+            if(player.isColliding(x)){
+                player.bounce();
+            }
 
+        }
     }
 
 
@@ -142,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
         //shop.draw(g2);
         station.draw(g2);
 
-        long drawTime = System.nanoTime() - drawStart;
+        //long drawTime = System.nanoTime() - drawStart;
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
