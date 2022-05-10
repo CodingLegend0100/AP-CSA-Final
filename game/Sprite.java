@@ -10,12 +10,6 @@ public class Sprite {
     protected int width,height;
     protected double rotation; //Rotation in degrees
     protected Image i;
-<<<<<<< HEAD
-=======
-    
-    /** Creates a blank sprite */
-    public Sprite(){}
->>>>>>> 4e3748a68bbafac39ceb3523bd2988f2947bb472
 
     /**Create a sprite whose size will be inherited from the image's width and height */
     public Sprite(String image,double x,double y){

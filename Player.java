@@ -12,7 +12,7 @@ public class Player extends Sprite {
         super("assets/spaceship.png",100,100,0.1);
         this.k = k;
     }
-
+  
     public void update(){
         //This is just for testing
         x += velX;
@@ -34,6 +34,9 @@ public class Player extends Sprite {
         }
         if (k.isKeyDown("A")) rotation -= turnSpeed;
         if (k.isKeyDown("D")) rotation += turnSpeed;
-
+    }
+    public void bounce(){
+        velX=-velX;
+        velY=-velY;
     }
 }
