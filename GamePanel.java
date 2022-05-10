@@ -111,24 +111,21 @@ public class GamePanel extends JPanel implements Runnable {
 
         removeAsteroids(); //Clear asteroids
 
-        for(Sprite a:asteroids){
+        for(Sprite a : asteroids){
             a.update();
-        }
-
-        for (Sprite e : enemies){
-            e.update();
-        }
-        
-        for(Sprite x:asteroids){
-            if(player.isColliding(x)){
+            if(player.isColliding(a)){
                 player.bounce();
             }
-
         }
         if (player.isColliding(station)){
             player.bounce();
             shop.open();
         }
+
+        for (Sprite e : enemies){
+            e.update();
+        }
+    
     }
 
     public void keyPressed(String key){
