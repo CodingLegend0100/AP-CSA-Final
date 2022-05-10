@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -23,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
-    //Menu shop = new Menu(keyListener);
+    Menu shop = new Menu();
 
     Thread gameThread;
 
@@ -81,8 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Create asteroids off the edge of the screen
     //Assignee: Cole Kemp
     public void createAsteroid(){
-        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59)
-        return;
+        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59) return;
         double vert = player.getX()+height/2;
         double horz = player.getY()+width/2;
         asteroids.add(new Asteroid(vert,horz));
@@ -109,10 +110,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Update positions of objects on the screen */
     public void update(){
-        //if (shop.isOpen()) return;
-        createAsteroid();
+        if (shop.isOpen()) return;
+
+        createAsteroid(); //Try creating an asteroid
+
         player.update();
-        removeAsteroids();
+
+        removeAsteroids(); //Clear asteroids
+
         for(Sprite a:asteroids){
             a.update();
         }
@@ -127,6 +132,22 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+        if (player.isColliding(station)){
+            player.bounce();
+            shop.open();
+        }
+    }
+
+    public void keyPressed(String key){
+        System.out.println(key);
+        if (key.equals("Escape")){
+            shop.close();
+        }
+
+    }
+
+    public void keyReleased(String key){
+
     }
 
 
@@ -137,8 +158,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         long drawStart = System.nanoTime();
 
+        shop.draw(g2);
+
         g2.translate(-player.getX()+width/2,-player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
+
         for (Sprite a: asteroids){
             a.draw(g2);
         }
@@ -147,11 +171,43 @@ public class GamePanel extends JPanel implements Runnable {
             e.draw(g2);
         }
 
-        //shop.draw(g2);
         station.draw(g2);
 
-        //long drawTime = System.nanoTime() - drawStart;
+        long drawTime = System.nanoTime() - drawStart;
+        g2.drawString("Draw time (nano): "+drawTime,(int)player.getX()-width/2+5,(int)player.getY()-height/2+10);
+
+        g2.translate(player.getX()-width/2,player.getY()-height/2); //Translate origin back
+        shop.draw(g2);
 
         g2.dispose(); //Get rid of the graphics when we are done
+    }
+
+    public class KeyInput implements KeyListener {
+        private HashMap<String,Boolean> keysDown = new HashMap<String,Boolean>();
+    
+        public boolean isKeyDown(String key){
+            return keysDown.getOrDefault(key, false);
+        }
+    
+        @Override
+        public void keyTyped(KeyEvent e) {
+            //Not used
+        }
+    
+        @Override
+        public void keyPressed(KeyEvent e) {
+            String keyString = KeyEvent.getKeyText(e.getKeyCode());
+            keysDown.put(keyString,true);
+            GamePanel.this.keyPressed(keyString);
+        }
+    
+        @Override
+        public void keyReleased(KeyEvent e) {
+            String keyString = KeyEvent.getKeyText(e.getKeyCode());
+            keysDown.put(keyString,false);
+            GamePanel.this.keyReleased(keyString);
+            
+        }
+    
     }
 }

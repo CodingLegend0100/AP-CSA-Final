@@ -1,15 +1,15 @@
 import game.Sprite;
 
 public class Player extends Sprite {
-    KeyInput k; //The key input handler
+    GamePanel.KeyInput k; //The key input handler
 
     private double velX = 0, velY = 0;
     private double turnSpeed = 2.5;
     private double acceleration = 0.2; //Increases max speed by 5 per 0.1
     private double glide = 0.98;
 
-    public Player(KeyInput k){
-        super("assets/spaceship.png",100,100,0.1);
+    public Player(GamePanel.KeyInput k){
+        super("assets/spaceship.png",150,150,0.1);
         this.k = k;
     }
   
@@ -35,8 +35,9 @@ public class Player extends Sprite {
         if (k.isKeyDown("A")) rotation -= turnSpeed;
         if (k.isKeyDown("D")) rotation += turnSpeed;
     }
+    
     public void bounce(){
-        velX=-velX;
-        velY=-velY;
+        velX = -velX;
+        velY = -velY;
     }
 }

@@ -11,6 +11,9 @@ public class Sprite {
     protected double rotation; //Rotation in degrees
     protected Image i;
 
+    /**Create a blank sprite */
+    public Sprite(){}
+
     /**Create a sprite whose size will be inherited from the image's width and height */
     public Sprite(String image,double x,double y){
         this(loadImage(image),x,y);
