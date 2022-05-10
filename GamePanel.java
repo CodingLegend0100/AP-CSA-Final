@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -102,9 +104,13 @@ public class GamePanel extends JPanel implements Runnable {
     /** Update positions of objects on the screen */
     public void update(){
         //if (shop.isOpen()) return;
-        createAsteroid();
+
+        createAsteroid(); //Try creating an asteroid
+
         player.update();
-        removeAsteroids();
+
+        removeAsteroids(); //Clear asteroids
+
         for(Sprite a:asteroids){
             a.update();
         }
@@ -119,6 +125,14 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+    }
+
+    public void keyPressed(String key){
+
+    }
+
+    public void keyReleased(String key){
+
     }
 
 
@@ -146,5 +160,34 @@ public class GamePanel extends JPanel implements Runnable {
         g2.drawString("Draw time (nano): "+drawTime,(int)player.getX()-width/2+5,(int)player.getY()-height/2+10);
 
         g2.dispose(); //Get rid of the graphics when we are done
+    }
+
+    public class KeyInput implements KeyListener {
+        private HashMap<String,Boolean> keysDown = new HashMap<String,Boolean>();
+    
+        public boolean isKeyDown(String key){
+            return keysDown.getOrDefault(key, false);
+        }
+    
+        @Override
+        public void keyTyped(KeyEvent e) {
+            //Not used
+        }
+    
+        @Override
+        public void keyPressed(KeyEvent e) {
+            String keyString = KeyEvent.getKeyText(e.getKeyCode());
+            keysDown.put(keyString,true);
+            GamePanel.this.keyPressed(keyString);
+        }
+    
+        @Override
+        public void keyReleased(KeyEvent e) {
+            String keyString = KeyEvent.getKeyText(e.getKeyCode());
+            keysDown.put(keyString,false);
+            GamePanel.this.keyReleased(keyString);
+            
+        }
+    
     }
 }
