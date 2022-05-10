@@ -18,8 +18,8 @@ public class Player extends Sprite {
         x += velX;
         y += velY;
 
-        double velocity = Math.sqrt(velX*velX+velY*velY); //Calculate magnitude of velocity vector
-        System.out.println(velocity);
+        //double velocity = Math.sqrt(velX*velX+velY*velY); //Calculate magnitude of velocity vector
+        //System.out.println(velocity);
 
         velX *= glide;
         velY *= glide;

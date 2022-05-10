@@ -97,7 +97,14 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Remove asteroids too far off the edge of the screen
     //Assignee: Cole Kemp
     public void removeAsteroids(){
-
+        //creates a 
+        double distance =0.0;
+        for(int i=0;i<asteroids.size();i++){
+            distance = Math.sqrt((asteroids.get(i).getX()-player.getX())+(asteroids.get(i).getY()-player.getY()));
+        if(distance>width*2)
+            asteroids.remove(i);
+            System.out.println("Removed Asteroid:"+i);
+        }
     }
 
     /** Update positions of objects on the screen */
