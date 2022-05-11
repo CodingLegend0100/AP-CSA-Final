@@ -83,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable {
     //TODO: Create asteroids off the edge of the screen
     //Assignee: Cole Kemp
     public void createAsteroid(){
-        if(((int)(Math.random()*70+1))!=1||asteroids.size()>59) return;
+        if(((int)(Math.random()*100+1))!=1||asteroids.size()>=25) return;
         double px = player.getX()+width/2;
         double py = player.getY()+height/2;
         double angle = player.getRotation();
@@ -156,11 +156,11 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
 
-        long drawStart = System.nanoTime();
+        //long drawStart = System.nanoTime();
 
         shop.draw(g2);
 
-        g2.translate(-player.getX()+width/2,-player.getY()+height/2); //Keep player in the center of the window
+        g2.translate(-(int)player.getX()+width/2,-(int)player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
 
         for (Sprite a: asteroids){
@@ -173,10 +173,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         station.draw(g2);
 
-        long drawTime = System.nanoTime() - drawStart;
-        g2.drawString("Draw time (nano): "+drawTime,(int)player.getX()-width/2+5,(int)player.getY()-height/2+10);
+        //long drawTime = System.nanoTime() - drawStart;
 
-        g2.translate(player.getX()-width/2,player.getY()-height/2); //Translate origin back
+        g2.translate((int)player.getX()-width/2,(int)player.getY()-height/2); //Translate origin back
         shop.draw(g2);
 
         g2.dispose(); //Get rid of the graphics when we are done
@@ -197,8 +196,8 @@ public class GamePanel extends JPanel implements Runnable {
         @Override
         public void keyPressed(KeyEvent e) {
             String keyString = KeyEvent.getKeyText(e.getKeyCode());
+            if (!isKeyDown(keyString)) GamePanel.this.keyPressed(keyString);
             keysDown.put(keyString,true);
-            GamePanel.this.keyPressed(keyString);
         }
     
         @Override
