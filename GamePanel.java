@@ -82,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Create asteroids off the edge of the screen
     public void createAsteroid(){
-        if(((int)(Math.random()*100+1))!=1||asteroids.size()>59) return;
+        if(((int)(Math.random()*100+1))!=1||asteroids.size()>49) return;
         double px = player.getX();
         double py = player.getY();
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
@@ -185,12 +185,11 @@ public class GamePanel extends JPanel implements Runnable {
         g2.fillOval((int)(player.getX()+50*Math.cos(rad)),(int)(player.getY()+50*Math.sin(rad)),10,10);
 
         g2.translate((int)player.getX()-width/2,(int)player.getY()-height/2); //Translate origin back
-        
-        shop.draw(g2); //Draw shop menu
 
         long drawTime = System.nanoTime() - drawStart;
         g2.drawString("Draw Time: "+drawTime,10,10);
 
+        shop.draw(g2); //Draw shop menu
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
