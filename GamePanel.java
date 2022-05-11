@@ -84,12 +84,13 @@ public class GamePanel extends JPanel implements Runnable {
     //Assignee: Cole Kemp
     public void createAsteroid(){
         if(((int)(Math.random()*70+1))!=1||asteroids.size()>59) return;
-        double px = player.getX()+width/2;
-        double py = player.getY()+height/2;
-        double angle = player.getRotation();
-        double X = 0;
-
-        asteroids.add(new Asteroid(px,py,Math.random()));
+        double px = player.getX();
+        double py = player.getY();
+        double angle = Math.toRadians(player.getRotation()-90);
+        double X = px+Math.cos(angle)*(height/2);
+        double Y = py+Math.sin(angle)*(height)/2;
+        System.out.println(angle);
+        asteroids.add(new Asteroid(X,Y,Math.random()));
         
         //Check if it is colliding with another asteroid
         
