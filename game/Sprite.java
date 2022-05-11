@@ -69,6 +69,7 @@ public class Sprite {
     public void setRotation(double degrees){ this.rotation = degrees; }
     public void setImage(Image i){ this.i = i; }
 
+    //Ignores rotation
     public boolean isColliding(Sprite s){
         //If this.right > s.left && this.left < s.right && this.bottom > s.top && this.top < s.bottom
         return x+width/2 > s.getX()-s.getWidth()/2 && x-width/2 < s.getX()+s.getWidth()/2 &&
