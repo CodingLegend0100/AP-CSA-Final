@@ -80,8 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
         
     }
 
-    //TODO: Create asteroids off the edge of the screen
-    //Assignee: Cole Kemp
+    //Create asteroids off the edge of the screen
     public void createAsteroid(){
         if(((int)(Math.random()*100+1))!=1||asteroids.size()>59) return;
         double px = player.getX();
@@ -89,16 +88,13 @@ public class GamePanel extends JPanel implements Runnable {
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
         double X = px+Math.cos(angle)*(height);
         double Y = py+Math.sin(angle)*(height);
-        //System.out.println(angle);
-        asteroids.add(new Asteroid(X,Y,Math.random()*.3+.3));
-        
         //Check if it is colliding with another asteroid
-        
+        System.out.println("created asteroid");
+        asteroids.add(new Asteroid(X,Y));        
         
     }
 
-    //TODO: Remove asteroids too far off the edge of the screen
-    //Assignee: Cole Kemp
+    //Removes asteroids too far off the edge of the screen
     public void removeAsteroids(){
         //creates a 
         double distance = 0.0;
