@@ -20,6 +20,6 @@ public class Asteroid extends Sprite {
     public void update(){
         x += velX;
         y += velY;
-        
+        rotation += rotationSpeed;
     }
 }
