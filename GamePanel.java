@@ -90,11 +90,9 @@ public class GamePanel extends JPanel implements Runnable {
         double X = px+Math.cos(angle)*(height);
         double Y = py+Math.sin(angle)*(height);
         System.out.println(angle);
-        asteroids.add(new Asteroid(X,Y,Math.random()*.5));
+        asteroids.add(new Asteroid(X,Y,Math.random()*.3+.3));
         
         //Check if it is colliding with another asteroid
-        
-        //Add it to asteroids list
         
         
     }
@@ -103,11 +101,10 @@ public class GamePanel extends JPanel implements Runnable {
     //Assignee: Cole Kemp
     public void removeAsteroids(){
         //creates a 
-        double distance =0.0;
+        double distance = 0.0;
         for(int i=0;i<asteroids.size();i++){
             distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
-            if(distance>(width*3)*(width*3)) asteroids.remove(i);
-            //System.out.println("Removed Asteroid:"+i);
+            if(distance>width*3) asteroids.remove(i);
         }
     }
 
@@ -126,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
             if(player.isColliding(a)){
                 player.bounce();
             }
+            
         }
         if (player.isColliding(station)){
             player.bounce();

@@ -13,12 +13,13 @@ public class Asteroid extends Sprite {
     
     public Asteroid(double x, double y,double scale){
         super(asteroidImages[(int)(Math.random()*asteroidImages.length)],x,y,scale);
+        rotation = Math.random()*360+1;
+        rotationSpeed = Math.random()*100;
     }
 
     public void update(){
         x += velX;
         y += velY;
-        rotation += rotationSpeed;
         
     }
 }
