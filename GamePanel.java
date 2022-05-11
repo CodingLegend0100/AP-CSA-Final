@@ -88,8 +88,9 @@ public class GamePanel extends JPanel implements Runnable {
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
         double X = px+Math.cos(angle)*(height);
         double Y = py+Math.sin(angle)*(height);
+        
         //Check if it is colliding with another asteroid
-        System.out.println("created asteroid");
+        System.out.println("created asteroid at: "+X+","+Y);
         asteroids.add(new Asteroid(X,Y));        
         
     }
@@ -100,7 +101,7 @@ public class GamePanel extends JPanel implements Runnable {
         double distance = 0.0;
         for(int i=0;i<asteroids.size();i++){
             distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
-            if(distance>width*3) asteroids.remove(i);
+            if(distance>=(width*3)*(width*3)) asteroids.remove(i);
             // for(int a=0;a<asteroids.size();a++){
             //     if(asteroids.get(a).isColliding(asteroids.get(i))){
             //         asteroids.remove(a);
@@ -139,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void keyPressed(String key){
-        System.out.println(key);
+        //System.out.println(key);
         if (key.equals("Escape")){
             shop.close();
         }
@@ -156,7 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
 
-        //long drawStart = System.nanoTime();
+        long drawStart = System.nanoTime();
 
         shop.draw(g2);
 
@@ -173,15 +174,25 @@ public class GamePanel extends JPanel implements Runnable {
 
         station.draw(g2);
 
+        //Draw indicator pointing toward enemies
+        g2.setColor(Color.RED);
+        for (Sprite e : enemies){
+            double rad = Math.atan2(e.getY()-player.getY(),e.getX()-player.getX());
+            g2.fillOval((int)(player.getX()+50*Math.cos(rad)),(int)(player.getY()+50*Math.sin(rad)),10,10);
+        }
+
         //Draw indicator pointing to space station
         g2.setColor(Color.WHITE);
         double rad = Math.atan2(-player.getY(),-player.getX());
         g2.fillOval((int)(player.getX()+50*Math.cos(rad)),(int)(player.getY()+50*Math.sin(rad)),10,10);
 
-        //long drawTime = System.nanoTime() - drawStart;
-
         g2.translate((int)player.getX()-width/2,(int)player.getY()-height/2); //Translate origin back
-        shop.draw(g2);
+        
+        shop.draw(g2); //Draw shop menu
+
+        long drawTime = System.nanoTime() - drawStart;
+        g2.drawString("Draw Time: "+drawTime,10,10);
+
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
