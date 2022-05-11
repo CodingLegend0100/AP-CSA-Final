@@ -40,14 +40,14 @@ public class GamePanel extends JPanel implements Runnable {
         addKeyListener(keyListener);
         setFocusable(true);
         setBackground(new Color(10,10,10));
-        
-        gameThread = new Thread(this);
-        gameThread.start();
 
         enemies.add(new Enemy(enemyImages[0],100,100,player));
         enemies.add(new Enemy(enemyImages[1],150,100,player));
         enemies.add(new Enemy(enemyImages[2],200,100,player));
         enemies.add(new Enemy(enemyImages[3],250,100,player));
+
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     public void run(){
