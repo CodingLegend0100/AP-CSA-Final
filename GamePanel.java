@@ -105,9 +105,8 @@ public class GamePanel extends JPanel implements Runnable {
         //creates a 
         double distance =0.0;
         for(int i=0;i<asteroids.size();i++){
-            distance = Math.sqrt((asteroids.get(i).getX()-player.getX())+(asteroids.get(i).getY()-player.getY()));
-        if(distance>width*6)
-            asteroids.remove(i);
+            distance = (asteroids.get(i).getX()-player.getX())+(asteroids.get(i).getY()-player.getY());
+            if(distance>(width*3)*(width*3)) asteroids.remove(i);
             //System.out.println("Removed Asteroid:"+i);
         }
     }
