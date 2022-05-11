@@ -88,9 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
         double X = px+Math.cos(angle)*(height);
         double Y = py+Math.sin(angle)*(height);
-        
         //Check if it is colliding with another asteroid
-        System.out.println("created asteroid at: "+X+","+Y);
         asteroids.add(new Asteroid(X,Y));        
         
     }
