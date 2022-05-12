@@ -61,4 +61,5 @@ public class Player extends Sprite {
             beam.draw(g);
         }
     }
+    public boolean isMining(){return mining;}
 }
