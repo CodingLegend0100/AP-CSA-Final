@@ -1,8 +1,13 @@
 import game.Sprite;
 
+import java.awt.Graphics2D;
+
 public class Player extends Sprite {
     GamePanel.KeyInput k; //The key input handler
 
+    Sprite beam = new Sprite("assets/beam.png",0,0,100,100);
+
+    private boolean mining = false;
     private double velX = 0, velY = 0;
     private double turnSpeed = 2.5;
     private double acceleration = 0.2; //Increases max speed by 5 per 0.1
@@ -32,12 +37,28 @@ public class Player extends Sprite {
             velX += acceleration*Math.cos(rad);
             velY += acceleration*Math.sin(rad);
         }
+        if(k.isKeyDown("Space")){
+            mining = true;
+        } else { mining = false; }
+
         if (k.isKeyDown("A")) rotation -= turnSpeed;
         if (k.isKeyDown("D")) rotation += turnSpeed;
+
+        beam.setX(x);
+        beam.setY(y);
+        beam.setRotation(rotation);
     }
     
     public void bounce(){
         velX = -velX;
         velY = -velY;
+    }
+
+    public void draw(Graphics2D g){
+        super.draw(g);
+
+        if (mining){
+            beam.draw(g);
+        }
     }
 }
