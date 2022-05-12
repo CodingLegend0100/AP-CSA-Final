@@ -1,20 +1,14 @@
 import game.Sprite;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends game.GamePanel {
     
-    private final int width = 900, height = 600;
-    private final int FPS = 60;
+    private static final int width = 900, height = 600;
+    private static final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
 
@@ -26,54 +20,22 @@ public class GamePanel extends JPanel implements Runnable {
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
     Menu shop = new Menu();
-    
-    Thread gameThread;
+
 
     public GamePanel(){
+        super(width,height,FPS);
         
         //Load images
         for (int i = 1; i <= 4; i++){
             enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
-        setPreferredSize(new Dimension(width, height));
-        addKeyListener(keyListener);
-        setFocusable(true);
-        setBackground(new Color(10,10,10));
-
         enemies.add(new Enemy(enemyImages[0],-75,150,player));
         enemies.add(new Enemy(enemyImages[1],-25,150,player));
         enemies.add(new Enemy(enemyImages[2],25,150,player));
         enemies.add(new Enemy(enemyImages[3],75,150,player));
 
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    public void run(){
-        //How this works
-        //Calculate nanoseconds between frames by
-        //dividing nanoseconds (1 billion) in 1 second by the FPS
-        int drawInterval = 1000000000/FPS;
- 
-        long lastTime = System.nanoTime(); //The last time checked
-        long currentTime; //The current time
-
-        long delta = 0; //Nanoseconds since the last frame was drawn
-
-        while (gameThread != null){
-
-            currentTime = System.nanoTime(); //Get the current time in nanoseconds
-            delta += currentTime - lastTime; //Add time difference to delta
-            lastTime = currentTime;
-
-            //If enough time has passed, draw the frame
-            if (delta >= drawInterval){
-                update();
-                repaint();
-                delta = 0;
-            }
-        }
+        start();
     }
 
     public void createEnemy(){
@@ -93,9 +55,8 @@ public class GamePanel extends JPanel implements Runnable {
         Boolean isColliding =false;
         for(int i=0;i<asteroids.size();i++){
             distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
-            if(distance>=(width*3)*(width*3)) asteroids.remove(i);
-            if(a.isColliding(asteroids.get(i)))
-            isColliding=true;
+            if (distance>=(width*3)*(width*3)){ asteroids.remove(i); }
+            if (a.isColliding(asteroids.get(i))){ isColliding=true; }
         }
         if(!isColliding) asteroids.add(a);
         
@@ -104,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update(){
         if (shop.isOpen()) return;
 
-        manageAsteroid(); //Try creating an asteroid
+        manageAsteroid();
 
         player.update();
 
@@ -150,10 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     /** Draw objects to the screen */
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g; //Use graphics 2d because its better
-
+    public void draw(Graphics2D g2){
         long drawStart = System.nanoTime();
 
         shop.draw(g2);
@@ -191,34 +149,5 @@ public class GamePanel extends JPanel implements Runnable {
         shop.draw(g2); //Draw shop menu
 
         g2.dispose(); //Get rid of the graphics when we are done
-    }
-
-    public class KeyInput implements KeyListener {
-        private HashMap<String,Boolean> keysDown = new HashMap<String,Boolean>();
-    
-        public boolean isKeyDown(String key){
-            return keysDown.getOrDefault(key, false);
-        }
-    
-        @Override
-        public void keyTyped(KeyEvent e) {
-            //Not used
-        }
-    
-        @Override
-        public void keyPressed(KeyEvent e) {
-            String keyString = KeyEvent.getKeyText(e.getKeyCode());
-            if (!isKeyDown(keyString)) GamePanel.this.keyPressed(keyString);
-            keysDown.put(keyString,true);
-        }
-    
-        @Override
-        public void keyReleased(KeyEvent e) {
-            String keyString = KeyEvent.getKeyText(e.getKeyCode());
-            keysDown.put(keyString,false);
-            GamePanel.this.keyReleased(keyString);
-            
-        }
-    
     }
 }
