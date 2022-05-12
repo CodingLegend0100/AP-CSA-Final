@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 public class GamePanel extends game.GamePanel {
-    
+    private int points=0;
     private static final int width = 900, height = 600;
     private static final int FPS = 60;
 
@@ -66,7 +66,7 @@ public class GamePanel extends game.GamePanel {
         manageAsteroid();
 
         player.update();
-
+        station.update();
         for(int i = 0; i < asteroids.size(); i++){
             Sprite a = asteroids.get(i);
             a.update();
@@ -75,6 +75,7 @@ public class GamePanel extends game.GamePanel {
                     //Player mines the asteroid
                     asteroids.remove(i);
                     i--;
+                    points++;
                 } else {
                     //Player bounces off asteroid
                     player.bounce();
