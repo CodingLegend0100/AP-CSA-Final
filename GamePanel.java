@@ -143,6 +143,7 @@ public class GamePanel extends game.GamePanel {
 
         long drawTime = System.nanoTime() - drawStart;
         g2.drawString("Draw Time: "+drawTime,10,10);
+        g2.drawString("Points:"+points,10,30);
 
         shop.draw(g2); //Draw shop menu
 
