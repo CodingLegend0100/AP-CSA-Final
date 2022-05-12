@@ -124,7 +124,11 @@ public class GamePanel extends JPanel implements Runnable {
         //     if (player.isColliding(asteroids.get(a)))
         //         asteroids.remove(a);
         // }
-
+        if (player.isMining()){
+            for(int a = 0;a<asteroids.size();a++)
+                if (player.isColliding(asteroids.get(a)))
+                    asteroids.remove(a);
+        }
         for (Sprite e : enemies){
             e.update();
         }
