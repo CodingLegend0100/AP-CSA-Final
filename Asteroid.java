@@ -12,6 +12,7 @@ public class Asteroid extends Sprite {
     }
     
     public Asteroid(double x, double y){
+        
         super(
             asteroidImages[(int)(Math.random()*asteroidImages.length)], //Random asteroid image
             x,y,   //Position
@@ -19,7 +20,7 @@ public class Asteroid extends Sprite {
         );
         
         rotation = Math.random()*360+1;
-        rotationSpeed = Math.random()*100;
+        rotationSpeed = Math.random();
     }
 
     public void update(){
