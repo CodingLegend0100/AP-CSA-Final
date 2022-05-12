@@ -17,16 +17,17 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FPS = 60;
 
     private Image[] enemyImages = new Image[4];
-    
+
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
-    private ArrayList<Sprite> enemies = new ArrayList<Sprite>();   
-
+    private ArrayList<Sprite> enemies = new ArrayList<Sprite>();  
+    
+    
     KeyInput keyListener = new KeyInput();
-
+    Beam beam = new Beam(0,0,keyListener);
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
     Menu shop = new Menu();
-
+    
     Thread gameThread;
 
     public GamePanel(){
@@ -105,6 +106,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Update positions of objects on the screen */
     public void update(){
+        if(beam.getDraw()){
+            beam.setX(player.getX());
+            beam.setY(player.getY());
+            beam.setRotation(player.getRotation());
+        }
         if (shop.isOpen()) return;
 
         createAsteroid(); //Try creating an asteroid
@@ -133,14 +139,15 @@ public class GamePanel extends JPanel implements Runnable {
         for (Sprite e : enemies){
             e.update();
         }
-        System.out.println(asteroids.size());
+        //System.out.println(asteroids.size());
     }
 
     public void keyPressed(String key){
-        //System.out.println(key);
+        System.out.println(key);
         if (key.equals("Escape")){
             shop.close();
         }
+
 
     }
 
@@ -160,7 +167,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.translate(-(int)player.getX()+width/2,-(int)player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
-
+        if(beam.getDraw())
+            beam.draw(g2);
         for (Sprite a: asteroids){
             a.draw(g2);
         }
