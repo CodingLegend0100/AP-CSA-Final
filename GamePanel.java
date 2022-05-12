@@ -42,7 +42,7 @@ public class GamePanel extends game.GamePanel {
 
     //Create asteroids off the edge of the screen, if its touching anything it doesnt actually make one.
     public void manageAsteroid(){
-        if(((int)(Math.random()*100+1))!=1||asteroids.size()>49) return;
+        if(((int)(Math.random()*60+1))!=1||asteroids.size()>49) return;
         double distance = 0.0;
         double px = player.getX();
         double py = player.getY();
@@ -143,7 +143,7 @@ public class GamePanel extends game.GamePanel {
 
         //long drawTime = System.nanoTime() - drawStart;
         //g2.drawString("Draw Time: "+drawTime,10,10);
-
+        g2.drawString("Points: "+points,10,10);
         shop.draw(g2); //Draw shop menu
 
         g2.dispose(); //Get rid of the graphics when we are done
