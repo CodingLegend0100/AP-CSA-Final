@@ -57,9 +57,7 @@ public class Player extends Sprite {
     public void draw(Graphics2D g){
         super.draw(g);
 
-        if (mining){
-            beam.draw(g);
-        }
+        if (mining) beam.draw(g);
     }
     public boolean isMining(){return mining;}
 }
