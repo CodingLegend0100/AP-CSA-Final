@@ -15,8 +15,6 @@ public class GamePanel extends game.GamePanel {
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();  
     
-    
-    KeyInput keyListener = new KeyInput();
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
     Menu shop = new Menu();
@@ -69,27 +67,26 @@ public class GamePanel extends game.GamePanel {
 
         player.update();
 
-        //removeAsteroids(); //Clear asteroids
-
-        for(Sprite a : asteroids){
+        for(int i = 0; i < asteroids.size(); i++){
+            Sprite a = asteroids.get(i);
             a.update();
-            if(player.isColliding(a)) player.bounce();
+            if(player.isColliding(a)){ //Player collides with the asteroid
+                if (player.isMining()){
+                    //Player mines the asteroid
+                    asteroids.remove(i);
+                    i--;
+                } else {
+                    //Player bounces off asteroid
+                    player.bounce();
+                }
+            }
         }
 
         if (player.isColliding(station)){
             player.bounce();
             shop.open();
         }
-        //will reuse this to do the beam 
-        // for(int a = 0;a<asteroids.size();a++){
-        //     if (player.isColliding(asteroids.get(a)))
-        //         asteroids.remove(a);
-        // }
-        if (player.isMining()){
-            for(int a = 0;a<asteroids.size();a++)
-                if (player.isColliding(asteroids.get(a)))
-                    asteroids.remove(a);
-        }
+
         for (Sprite e : enemies){
             e.update();
         }

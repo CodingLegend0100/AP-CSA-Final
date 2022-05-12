@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     
     private int FPS = 60;
 
-    private KeyInput keyListener = new KeyInput();
+    protected KeyInput keyListener = new KeyInput();
     
     Thread gameThread;
 
