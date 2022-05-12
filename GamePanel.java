@@ -109,7 +109,7 @@ public class GamePanel extends game.GamePanel {
 
     /** Draw objects to the screen */
     public void draw(Graphics2D g2){
-        long drawStart = System.nanoTime();
+        //long drawStart = System.nanoTime();
 
         shop.draw(g2);
 
@@ -140,8 +140,8 @@ public class GamePanel extends game.GamePanel {
 
         g2.translate((int)player.getX()-width/2,(int)player.getY()-height/2); //Translate origin back
 
-        long drawTime = System.nanoTime() - drawStart;
-        g2.drawString("Draw Time: "+drawTime,10,10);
+        //long drawTime = System.nanoTime() - drawStart;
+        //g2.drawString("Draw Time: "+drawTime,10,10);
 
         shop.draw(g2); //Draw shop menu
 
