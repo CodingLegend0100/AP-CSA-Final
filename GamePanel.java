@@ -66,7 +66,7 @@ public class GamePanel extends game.GamePanel {
         manageAsteroid();
 
         player.update();
-
+        station.update();
         for(int i = 0; i < asteroids.size(); i++){
             Sprite a = asteroids.get(i);
             a.update();
