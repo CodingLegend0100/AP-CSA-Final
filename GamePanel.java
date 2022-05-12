@@ -23,7 +23,6 @@ public class GamePanel extends JPanel implements Runnable {
     
     
     KeyInput keyListener = new KeyInput();
-    Beam beam = new Beam(0,0,keyListener);
     Player player = new Player(keyListener);
     SpaceStation station = new SpaceStation();
     Menu shop = new Menu();
@@ -42,10 +41,10 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         setBackground(new Color(10,10,10));
 
-        enemies.add(new Enemy(enemyImages[0],100,100,player));
-        enemies.add(new Enemy(enemyImages[1],150,100,player));
-        enemies.add(new Enemy(enemyImages[2],200,100,player));
-        enemies.add(new Enemy(enemyImages[3],250,100,player));
+        enemies.add(new Enemy(enemyImages[0],-75,150,player));
+        enemies.add(new Enemy(enemyImages[1],-25,150,player));
+        enemies.add(new Enemy(enemyImages[2],25,150,player));
+        enemies.add(new Enemy(enemyImages[3],75,150,player));
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -106,11 +105,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Update positions of objects on the screen */
     public void update(){
-        if(beam.getDraw()){
-            beam.setX(player.getX());
-            beam.setY(player.getY());
-            beam.setRotation(player.getRotation());
-        }
         if (shop.isOpen()) return;
 
         createAsteroid(); //Try creating an asteroid
@@ -120,10 +114,8 @@ public class GamePanel extends JPanel implements Runnable {
         removeAsteroids(); //Clear asteroids
 
         for(Sprite a : asteroids){
-            
             a.update();
-
-            if(player.isColliding(a))player.bounce();
+            if(player.isColliding(a)) player.bounce();
         }
 
         if (player.isColliding(station)){
@@ -167,8 +159,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.translate(-(int)player.getX()+width/2,-(int)player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
-        if(beam.getDraw())
-            beam.draw(g2);
+        
         for (Sprite a: asteroids){
             a.draw(g2);
         }
