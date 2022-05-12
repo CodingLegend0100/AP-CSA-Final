@@ -80,38 +80,35 @@ public class GamePanel extends JPanel implements Runnable {
         
     }
 
-    //Create asteroids off the edge of the screen
-    public void createAsteroid(){
+    //Create asteroids off the edge of the screen, if its touching anything it doesnt actually make one.
+    public void manageAsteroid(){
         if(((int)(Math.random()*100+1))!=1||asteroids.size()>49) return;
+        double distance = 0.0;
         double px = player.getX();
         double py = player.getY();
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
         double X = px+Math.cos(angle)*(height);
         double Y = py+Math.sin(angle)*(height);
-        //Check if it is colliding with another asteroid
-        asteroids.add(new Asteroid(X,Y));        
-        
-    }
-
-    //Removes asteroids too far off the edge of the screen
-    public void removeAsteroids(){
-        double distance = 0.0;
+        Sprite a = new Asteroid(X,Y);
+        Boolean isColliding =false;
         for(int i=0;i<asteroids.size();i++){
             distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
             if(distance>=(width*3)*(width*3)) asteroids.remove(i);
-
+            if(a.isColliding(asteroids.get(i)))
+            isColliding=true;
         }
+        if(!isColliding) asteroids.add(a);
+        
     }
-
     /** Update positions of objects on the screen */
     public void update(){
         if (shop.isOpen()) return;
 
-        createAsteroid(); //Try creating an asteroid
+        manageAsteroid(); //Try creating an asteroid
 
         player.update();
 
-        removeAsteroids(); //Clear asteroids
+        //removeAsteroids(); //Clear asteroids
 
         for(Sprite a : asteroids){
             a.update();
