@@ -95,16 +95,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Removes asteroids too far off the edge of the screen
     public void removeAsteroids(){
-        //creates a 
         double distance = 0.0;
         for(int i=0;i<asteroids.size();i++){
             distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
             if(distance>=(width*3)*(width*3)) asteroids.remove(i);
-            // for(int a=0;a<asteroids.size();a++){
-            //     if(asteroids.get(a).isColliding(asteroids.get(i))){
-            //         asteroids.remove(a);
-            //     }
-            // }
 
         }
     }
@@ -120,21 +114,26 @@ public class GamePanel extends JPanel implements Runnable {
         removeAsteroids(); //Clear asteroids
 
         for(Sprite a : asteroids){
-            a.update();
-            if(player.isColliding(a)){
-                player.bounce();
-            }
             
+            a.update();
+
+            if(player.isColliding(a))player.bounce();
         }
+
         if (player.isColliding(station)){
             player.bounce();
             shop.open();
         }
+        //will reuse this to do the beam 
+        // for(int a = 0;a<asteroids.size();a++){
+        //     if (player.isColliding(asteroids.get(a)))
+        //         asteroids.remove(a);
+        // }
 
         for (Sprite e : enemies){
             e.update();
         }
-    
+        System.out.println(asteroids.size());
     }
 
     public void keyPressed(String key){
