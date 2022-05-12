@@ -20,7 +20,7 @@ public class Asteroid extends Sprite {
         );
         
         rotation = Math.random()*360+1;
-        rotationSpeed = Math.random();
+        rotationSpeed = Math.random()*2-1;
     }
 
     public void update(){
