@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 public class GamePanel extends game.GamePanel {
-    private int points=0;
+    private int points = 0;
     private static final int width = 900, height = 600;
     private static final int FPS = 60;
 
