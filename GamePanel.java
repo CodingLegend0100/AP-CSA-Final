@@ -41,47 +41,57 @@ public class GamePanel extends game.GamePanel {
     }
 
     //Create asteroids off the edge of the screen, if its touching anything it doesnt actually make one.
-    public void manageAsteroid(){
-        if(((int)(Math.random()*60+1))!=1||asteroids.size()>49) return;
-        double distance = 0.0;
-        double px = player.getX();
-        double py = player.getY();
+    public void manageAsteroids(){
+
+        //Calculate where to place new asteroid
         double angle = Math.toRadians(player.getRotation()-90+(Math.random()*60-30));
-        double X = px+Math.cos(angle)*(height);
-        double Y = py+Math.sin(angle)*(height);
-        Sprite a = new Asteroid(X,Y);
-        Boolean isColliding =false;
+        double X = player.getX()+Math.cos(angle)*(height); //X coordinate of new asteroid
+        double Y = player.getY()+Math.sin(angle)*(height); //Y coordinate of new asteroid
+        Sprite create = new Asteroid(X,Y); //The asteroid being created
+
+        boolean success = (((int)(Math.random()*60+1))==1||asteroids.size()<=49); //Asteroid is sucessfully created
+        
         for(int i=0;i<asteroids.size();i++){
-            distance = Math.pow((asteroids.get(i).getX()-player.getX()),2)+Math.pow((asteroids.get(i).getY()-player.getY()),2);
-            if (distance>=(width*3)*(width*3)){ asteroids.remove(i); }
-            if (a.isColliding(asteroids.get(i))){ isColliding=true; }
+            Sprite a = asteroids.get(i);
+            
+            a.update();
+            
+            //Delete 'old' asteroids
+            double distance = Math.pow(a.getX()-player.getX(),2)+Math.pow(a.getY()-player.getY(),2);   
+            if (distance>=(width*3)*(width*3)){
+                asteroids.remove(i);
+                i--;
+                continue;
+            }
+
+            //New asteroid cannot be created because it collides with an existing one
+            if (create.isColliding(a)){
+                success = false; 
+            }
+
+            if (player.isMining()){
+                //Player mines the asteroid
+                asteroids.remove(i);
+                i--;
+                points++;
+            } else {
+                //Player bounces off asteroid
+                player.bounce();
+            }
         }
-        if(!isColliding) asteroids.add(a);
+        //Add asteroid to created if it can sucessfully be created
+        if(!success) asteroids.add(create);
         
     }
+
     /** Update positions of objects on the screen */
     public void update(){
         if (shop.isOpen()) return;
 
-        manageAsteroid();
+        manageAsteroids();
 
         player.update();
         station.update();
-        for(int i = 0; i < asteroids.size(); i++){
-            Sprite a = asteroids.get(i);
-            a.update();
-            if(player.isColliding(a)){ //Player collides with the asteroid
-                if (player.isMining()){
-                    //Player mines the asteroid
-                    asteroids.remove(i);
-                    i--;
-                    points++;
-                } else {
-                    //Player bounces off asteroid
-                    player.bounce();
-                }
-            }
-        }
 
         if (player.isColliding(station)){
             player.bounce();
