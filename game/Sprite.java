@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Image;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 /** This class is intended for displaying static images onto the screen */
@@ -72,8 +73,14 @@ public class Sprite {
     //Ignores rotation
     public boolean isColliding(Sprite s){
         //If this.right > s.left && this.left < s.right && this.bottom > s.top && this.top < s.bottom
-        return x+width/2 > s.getX()-s.getWidth()/2 && x-width/2 < s.getX()+s.getWidth()/2 &&
-            y+height/2 > s.getY()-s.getHeight()/2 && y-height/2 < s.getY()+s.getHeight()/2;
+        Rectangle r1 = new Rectangle((int)x-width/2,(int)y-height/2,width,height);
+        Rectangle r2 = new Rectangle((int)s.x-s.width/2,(int)s.y-s.height/2,s.width,s.height);
+        return r1.intersects(r2) || r1.contains(r2) || r2.contains(r1);
+    }
+
+    //Also ignores rotation
+    public boolean contains(int x,int y){
+        return (new Rectangle((int)this.x-width/2,(int)this.y-height/2,width,height)).contains(x,y);
     }
 
     public void update(){}
