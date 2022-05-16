@@ -123,15 +123,13 @@ public class GamePanel extends game.GamePanel {
     }
 
     public void mousePressed(int x, int y){
-        System.out.println(x+","+y);
+        shop.getInteraction(x, y);
     }
 
 
     /** Draw objects to the screen */
     public void draw(Graphics2D g2){
         //long drawStart = System.nanoTime();
-
-        shop.draw(g2);
 
         g2.translate(-(int)player.getX()+width/2,-(int)player.getY()+height/2); //Keep player in the center of the window
         player.draw(g2);
