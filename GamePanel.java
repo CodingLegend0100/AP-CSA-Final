@@ -49,7 +49,8 @@ public class GamePanel extends game.GamePanel {
         double Y = player.getY()+Math.sin(angle)*(height); //Y coordinate of new asteroid
         Sprite create = new Asteroid(X,Y); //The asteroid being created
 
-        boolean success = (((int)(Math.random()*60+1))==1||asteroids.size()<=49); //Asteroid is sucessfully created
+        //The asteroid will be created
+        boolean success = ((int)(Math.random()*60+1)) == 1 && asteroids.size() <= 49;
         
         for(int i=0;i<asteroids.size();i++){
             Sprite a = asteroids.get(i);
@@ -57,7 +58,7 @@ public class GamePanel extends game.GamePanel {
             a.update();
             
             //Delete 'old' asteroids
-            double distance = Math.pow(a.getX()-player.getX(),2)+Math.pow(a.getY()-player.getY(),2);   
+            double distance = Math.pow(a.getX()-player.getX(),2)+Math.pow(a.getY()-player.getY(),2);
             if (distance>=(width*3)*(width*3)){
                 asteroids.remove(i);
                 i--;
@@ -69,27 +70,30 @@ public class GamePanel extends game.GamePanel {
                 success = false; 
             }
 
-            if (player.isMining()){
-                //Player mines the asteroid
-                asteroids.remove(i);
-                i--;
-                points++;
-            } else {
-                //Player bounces off asteroid
-                player.bounce();
+            //Player collides with the asteroid
+            if (player.isColliding(a)){
+                if (player.isMining()){
+                    //Player mines the asteroid
+                    asteroids.remove(i);
+                    i--;
+                    points++;
+                } else {
+                    //Player bounces off asteroid
+                    player.bounce();
+                }
             }
         }
         //Add asteroid to created if it can sucessfully be created
-        if(!success) asteroids.add(create);
+        if (success) asteroids.add(create);
         
     }
 
     /** Update positions of objects on the screen */
     public void update(){
+        
         if (shop.isOpen()) return;
 
         manageAsteroids();
-
         player.update();
         station.update();
 
@@ -101,11 +105,12 @@ public class GamePanel extends game.GamePanel {
         for (Sprite e : enemies){
             e.update();
         }
+
         //System.out.println(asteroids.size());
     }
 
     public void keyPressed(String key){
-        System.out.println(key);
+        //System.out.println(key);
         if (key.equals("Escape")){
             shop.close();
         }
@@ -115,6 +120,10 @@ public class GamePanel extends game.GamePanel {
 
     public void keyReleased(String key){
 
+    }
+
+    public void mousePressed(int x, int y){
+        System.out.println(x+","+y);
     }
 
 
