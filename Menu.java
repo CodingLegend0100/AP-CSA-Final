@@ -1,3 +1,5 @@
+import game.Sprite;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -17,6 +19,8 @@ public class Menu {
     Rectangle buyButton = new Rectangle(200,250,200,100);
     Rectangle sellButton = new Rectangle(500,250,200,100);
 
+    Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),75,75,20,20);
+
 
     public void open(){
         open = true;
@@ -30,7 +34,8 @@ public class Menu {
 
         if (screenID == MENU_SCREEN){
             if (buyButton.contains(x,y)) screenID = BUY_SCREEN;
-            if (sellButton.contains(x,y)) screenID = SELL_SCREEN;
+            else if (sellButton.contains(x,y)) screenID = SELL_SCREEN;
+            else if (exit.contains(x,y)) close();
         }
     }
 
@@ -47,6 +52,8 @@ public class Menu {
         g.drawString("Space Station",400,80);
 
         if (screenID == MENU_SCREEN){
+            exit.draw(g);
+
             g.setColor(new Color(0,150,0));
             g.fill(buyButton);
 
