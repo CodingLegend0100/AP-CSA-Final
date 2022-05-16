@@ -154,7 +154,7 @@ public class GamePanel extends game.GamePanel {
         //Draw indicator pointing to space station
         g2.setColor(Color.WHITE);
         double rad = Math.atan2(-player.getY(),-player.getX());
-        g2.fillOval((int)(player.getX()+50*Math.cos(rad)),(int)(player.getY()+50*Math.sin(rad)),10,10);
+        g2.fillOval((int)(player.getX()+55*Math.cos(rad)),(int)(player.getY()+55*Math.sin(rad)),10,10);
 
         g2.translate((int)player.getX()-width/2,(int)player.getY()-height/2); //Translate origin back
 
