@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import javax.swing.JPanel;
 
@@ -14,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int FPS = 60;
 
     protected KeyInput keyListener = new KeyInput();
+    protected MouseInput mouseListener = new MouseInput();
     
     Thread gameThread;
 
@@ -22,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         setPreferredSize(new Dimension(width, height));
         addKeyListener(keyListener);
+        addMouseListener(mouseListener);
         setFocusable(true);
         setBackground(new Color(10,10,10));
 
@@ -67,6 +71,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void keyReleased(String key){    }
 
+    public void mousePressed(int x, int y){    }
+
 
     /** Draw objects to the screen */
     public void paintComponent(Graphics g){
@@ -105,6 +111,40 @@ public class GamePanel extends JPanel implements Runnable {
             
         }
     
+    }
+
+    public class MouseInput implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            // TODO Auto-generated method stub
+            GamePanel.this.mousePressed(e.getX(),e.getY());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+
     }
 }
 
