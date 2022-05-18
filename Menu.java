@@ -22,14 +22,14 @@ public class Menu {
     Font font1 = new Font(Font.DIALOG,Font.PLAIN,25);
 
     Button buyButton = new Button("Buy",200,250,200,100,
-                                Color.WHITE,new Color(0,150,0),
-                                font);
+                                new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(0,150,0))
+                                );
 
     Button sellButton = new Button("Sell",500,250,200,100,
-                                Color.WHITE,new Color(200,0,0),
-                                font);
+                                new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
+                                );
     
-    ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY);
+    ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10);
     Button sellHydrogen = new Button("Hydrogen",110,90,150,50,sellStyle);
     Button sellLithium = new Button("Lithium",110,150,150,50,sellStyle);
     Button sellIron = new Button("Iron",110,210,150,50,sellStyle);
@@ -103,38 +103,30 @@ public class Menu {
     }
 
     public class Button extends Rectangle {
-        Font font;
         String text;
-        Color bg;
-        Color tc;
+        ButtonStyle style = new ButtonStyle();
         
         public Button(String msg, int x, int y, int width, int height, ButtonStyle style){
             super(x,y,width,height);
             text = msg;
-            if (style != null){
-                font = style.f;
-                tc = style.fontColor;
-                bg = style.background;
-            }
-        }
-
-        public Button(String msg, int x, int y, int width, int height,Color textColor,Color background,Font f){
-            super(x,y,width,height);
-            text = msg;
-            bg = background;
-            tc = textColor;
-            font = f;
+            if (style != null) this.style = style;
         }
 
         public void draw(Graphics2D g){
-            if (bg != null) g.setColor(bg);
-            
-            g.fill(this);
 
-            if (font != null) g.setFont(font);
-            if (tc != null) g.setColor(tc);
+            if (style.border != null) g.setColor(style.border);
+            g.fillRoundRect(x,y,width,height,style.arcWidth,style.arcHeight);
 
 
+            if (style.background != null) g.setColor(style.background);
+            g.fillRoundRect(x+style.borderWidth,y+style.borderWidth,
+                            width-style.borderWidth*2,height-style.borderWidth*2,
+                            style.arcWidth,style.arcHeight);
+
+            if (style.font != null) g.setFont(style.font);
+            if (style.fontColor != null) g.setColor(style.fontColor);
+
+            //Draws the text centered within the button
             FontMetrics fm = g.getFontMetrics();
             Rectangle2D r = fm.getStringBounds(text, g);
             int x = this.x+(this.width - (int) r.getWidth()) / 2;
@@ -144,13 +136,16 @@ public class Menu {
     }
 
     public class ButtonStyle {
-        Font f;
-        Color fontColor;
-        Color background;
-        Color border;
-        int borderWidth;
+        Font font;
+        Color fontColor = Color.BLACK;
+        Color background = Color.BLACK;
+        Color border = Color.BLACK;
+        int borderWidth = 0;
+        int arcWidth = 0;
+        int arcHeight = 0;
+
         public ButtonStyle setFont(Font f){
-            this.f = f;
+            font = f;
             return this;
         }
         public ButtonStyle setFontColor(Color c){
@@ -165,8 +160,16 @@ public class Menu {
             border = c;
             return this;
         }
-        public ButtonStyle setBorderWidth(int w){
-            borderWidth = w;
+        public ButtonStyle setBorderWidth(int x){
+            borderWidth = x;
+            return this;
+        }
+        public ButtonStyle setArcWidth(int x){
+            arcWidth = x;
+            return this;
+        }
+        public ButtonStyle setArcHeight(int x){
+            arcHeight = x;
             return this;
         }
     }
