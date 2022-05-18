@@ -37,6 +37,14 @@ public class Player extends Sprite {
             velX += acceleration*Math.cos(rad);
             velY += acceleration*Math.sin(rad);
         }
+        if (k.isKeyDown("S")){
+            //Convert direction from degrees to radians
+            double rad = Math.toRadians(rotation-90); //Vector angle correction
+
+            //Add acceleration vector to velocity vector
+            velX -= (acceleration*Math.cos(rad))/2;
+            velY -= (acceleration*Math.sin(rad))/2;
+        }
         if(k.isKeyDown("Space")){
             mining = true;
         } else { mining = false; }

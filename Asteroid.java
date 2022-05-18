@@ -28,4 +28,5 @@ public class Asteroid extends Sprite {
         y += velY;
         rotation += rotationSpeed;
     }
+    //iron gold litium 
 }
