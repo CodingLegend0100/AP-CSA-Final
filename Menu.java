@@ -21,26 +21,42 @@ public class Menu {
     Font font = new Font(Font.DIALOG,Font.PLAIN,50);
     Font font1 = new Font(Font.DIALOG,Font.PLAIN,25);
 
-    Button buyButton = new Button("Buy",200,250,200,100,
+    Button buyButton = new Button("Upgrades",150,250,250,100,
                                 new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(0,150,0))
                                 );
 
-    Button sellButton = new Button("Sell",500,250,200,100,
+    Button sellButton = new Button("Market",500,250,250,100,
                                 new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
                                 );
     
+    //Sell Buttons
     ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderWidth(0, 2, 0, 2);
     ButtonStyle selectedStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
-    Button sellHydrogen = new Button("Hydrogen",110,90,150,50,selectedStyle);
-    Button sellLithium = new Button("Lithium",110,150,150,50,sellStyle);
-    Button sellIron = new Button("Iron",110,210,150,50,sellStyle);
-    Button sellGold = new Button("Gold",110,270,150,50,sellStyle);
-    Button sellOsmium = new Button("Osmium",110,330,150,50,sellStyle);
-    Button sell1 = new Button("Sell",110,390,150,50,sellStyle);
-    Button sell2 = new Button("Sell",110,450,150,50,sellStyle);
+    Button sellHydrogen = new Button("Hydrogen",110,95,150,50,selectedStyle);
+    Button sellLithium = new Button("Lithium",110,155,150,50,sellStyle);
+    Button sellIron = new Button("Iron",110,215,150,50,sellStyle);
+    Button sellGold = new Button("Gold",110,275,150,50,sellStyle);
+    Button sellOsmium = new Button("Osmium",110,335,150,50,sellStyle);
+    Button sell1 = new Button("Sell",110,395,150,50,sellStyle);
+    Button sell2 = new Button("Sell",110,455,150,50,sellStyle);
     Button[] sellButtons = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sell1,sell2};
-    Button selected = sellHydrogen;
+    int selected = 0;
+    int sellAmount = 1;
 
+    //Chart window (x 300, y 100, w 500, h 350)
+
+    ButtonStyle style3 = new ButtonStyle().setFont(new Font(Font.DIALOG,Font.PLAIN,15)).setFontColor(Color.WHITE);
+    Button increaseAmount = new Button("+1",590,470,30,30,style3);
+    Button decreaseAmount = new Button("-1",480,470,30,30,style3);
+
+    //Buy buttons
+    int money = 0;
+    ButtonStyle cantAfford = new ButtonStyle();
+    ButtonStyle canBuy = new ButtonStyle();
+    Button[] buyButtons = {};
+    int[] buyCosts = {};
+
+    //Misc menu things
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
     Sprite back = new Sprite(Sprite.loadImage("assets/back_arrow.png"),80,80,30,30);
 
@@ -64,10 +80,16 @@ public class Menu {
             else if (screenID == SELL_SCREEN){
                 for (int i = 0; i < sellButtons.length; i++){
                     if (sellButtons[i].contains(x,y)){
-                        selected.style = sellStyle;
-                        selected = sellButtons[i];
-                        selected.style = selectedStyle;
+                        sellButtons[selected].style = sellStyle;
+                        selected = i;
+                        sellButtons[i].style = selectedStyle;
                     }
+                }
+                if (increaseAmount.contains(x,y)){
+
+                }
+                else if (decreaseAmount.contains(x,y)){
+
                 }
             }
         }
@@ -83,9 +105,9 @@ public class Menu {
         g.fillRect(60,60,780,480);
         g.setColor(Color.BLACK);
         g.setFont(font);
-        drawCentered(g,"Space Station",450,90);
 
         if (screenID == MENU_SCREEN){
+            drawCentered(g,"Space Station",450,90);
             exit.draw(g);
             buyButton.draw(g);
             sellButton.draw(g);
@@ -94,12 +116,23 @@ public class Menu {
             if (screenID == BUY_SCREEN){
                 g.setColor(Color.GREEN);
                 g.fillOval(450,300,10,10);
+                for (int i = 0; i < buyButtons.length; i++){
+                    if (buyCosts[i] < money){
+                        buyButtons[i].style = cantAfford;
+                    } else {
+                        buyButtons[i].style = canBuy;
+                    }
+                }
             }
             else if (screenID == SELL_SCREEN){
                 g.setColor(Color.DARK_GRAY);
                 for (Button b : sellButtons){
                     b.draw(g);
                 }
+                increaseAmount.draw(g);
+                decreaseAmount.draw(g);
+                g.setColor(Color.BLACK);
+                g.drawRect(300,100,500,350);
             }
         }
     }
