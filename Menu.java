@@ -29,8 +29,9 @@ public class Menu {
                                 new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
                                 );
     
-    ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10);
-    Button sellHydrogen = new Button("Hydrogen",110,90,150,50,sellStyle);
+    ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderWidth(0, 2, 0, 2);
+    ButtonStyle selectedStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
+    Button sellHydrogen = new Button("Hydrogen",110,90,150,50,selectedStyle);
     Button sellLithium = new Button("Lithium",110,150,150,50,sellStyle);
     Button sellIron = new Button("Iron",110,210,150,50,sellStyle);
     Button sellGold = new Button("Gold",110,270,150,50,sellStyle);
@@ -38,7 +39,7 @@ public class Menu {
     Button sell1 = new Button("Sell",110,390,150,50,sellStyle);
     Button sell2 = new Button("Sell",110,450,150,50,sellStyle);
     Button[] sellButtons = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sell1,sell2};
-
+    Button selected = sellHydrogen;
 
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
     Sprite back = new Sprite(Sprite.loadImage("assets/back_arrow.png"),80,80,30,30);
@@ -60,6 +61,15 @@ public class Menu {
             else if (exit.contains(x,y)) close();
         } else {
             if (back.contains(x,y)) screenID = MENU_SCREEN;
+            else if (screenID == SELL_SCREEN){
+                for (int i = 0; i < sellButtons.length; i++){
+                    if (sellButtons[i].contains(x,y)){
+                        selected.style = sellStyle;
+                        selected = sellButtons[i];
+                        selected.style = selectedStyle;
+                    }
+                }
+            }
         }
     }
 
@@ -119,8 +129,8 @@ public class Menu {
 
 
             if (style.background != null) g.setColor(style.background);
-            g.fillRoundRect(x+style.borderWidth,y+style.borderWidth,
-                            width-style.borderWidth*2,height-style.borderWidth*2,
+            g.fillRoundRect(x+style.borderLeft,y+style.borderTop,
+                            width-style.borderLeft-style.borderRight,height-style.borderTop-style.borderBottom,
                             style.arcWidth,style.arcHeight);
 
             if (style.font != null) g.setFont(style.font);
@@ -140,7 +150,10 @@ public class Menu {
         Color fontColor = Color.BLACK;
         Color background = Color.BLACK;
         Color border = Color.BLACK;
-        int borderWidth = 0;
+        int borderTop = 0;
+        int borderBottom = 0;
+        int borderLeft = 0;
+        int borderRight = 0;
         int arcWidth = 0;
         int arcHeight = 0;
 
@@ -161,7 +174,17 @@ public class Menu {
             return this;
         }
         public ButtonStyle setBorderWidth(int x){
-            borderWidth = x;
+            borderTop = x;
+            borderBottom = x;
+            borderLeft = x;
+            borderRight = x;
+            return this;
+        }
+        public ButtonStyle setBorderWidth(int top,int bottom,int left, int right){
+            borderTop = top;
+            borderBottom = bottom;
+            borderLeft = left;
+            borderRight = right;
             return this;
         }
         public ButtonStyle setArcWidth(int x){
