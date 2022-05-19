@@ -15,23 +15,29 @@ public class Menu {
     private int screenID;
 
     final int MENU_SCREEN = 0;
-    final int BUY_SCREEN = -1;
-    final int SELL_SCREEN = 1;
+    final int UPGRADE_SCREEN = -1;
+    final int MARKET_SCREEN = 1;
 
-    Font font = new Font(Font.DIALOG,Font.PLAIN,50);
-    Font font1 = new Font(Font.DIALOG,Font.PLAIN,25);
+    //Colors
+    Color DARK_GREEN = new Color(0,150,0);
 
-    Button buyButton = new Button("Upgrades",150,250,250,100,
-                                new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(0,150,0))
+    //Fonts
+    Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
+    Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
+    Font fontSize20 = new Font(Font.DIALOG,Font.PLAIN,15);
+    Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
+
+    Button upgrade = new Button("Upgrades",150,250,250,100,
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN)
                                 );
 
-    Button sellButton = new Button("Market",500,250,250,100,
-                                new ButtonStyle().setFont(font).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
+    Button market = new Button("Market",500,250,250,100,
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
                                 );
     
     //Sell Buttons
-    ButtonStyle sellStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderWidth(0, 2, 0, 2);
-    ButtonStyle selectedStyle = new ButtonStyle().setFont(font1).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcWidth(10).setArcHeight(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
+    ButtonStyle sellStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderWidth(0, 2, 0, 2);
+    ButtonStyle selectedStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
     Button sellHydrogen = new Button("Hydrogen",110,95,150,50,selectedStyle);
     Button sellLithium = new Button("Lithium",110,155,150,50,sellStyle);
     Button sellIron = new Button("Iron",110,215,150,50,sellStyle);
@@ -39,22 +45,23 @@ public class Menu {
     Button sellOsmium = new Button("Osmium",110,335,150,50,sellStyle);
     Button sell1 = new Button("Sell",110,395,150,50,sellStyle);
     Button sell2 = new Button("Sell",110,455,150,50,sellStyle);
-    Button[] sellButtons = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sell1,sell2};
+    Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sell1,sell2};
     int selected = 0;
     int sellAmount = 1;
 
     //Chart window (x 300, y 100, w 500, h 350)
 
-    ButtonStyle style3 = new ButtonStyle().setFont(new Font(Font.DIALOG,Font.PLAIN,15)).setFontColor(Color.WHITE);
+    ButtonStyle style3 = new ButtonStyle().setFont(fontSize15).setFontColor(Color.WHITE);
     Button increaseAmount = new Button("+1",590,470,30,30,style3);
     Button decreaseAmount = new Button("-1",480,470,30,30,style3);
 
     //Buy buttons
     int money = 0;
-    ButtonStyle cantAfford = new ButtonStyle();
-    ButtonStyle canBuy = new ButtonStyle();
-    Button[] buyButtons = {};
-    int[] buyCosts = {};
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize20).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize20).setBackground(DARK_GREEN).setArcSize(10);
+    Button upgradeHull = new Button("Upgrade Hull",110,95,150,50,canBuy);
+    Button[] upgrades = {upgradeHull};
+    int[] buyCosts = {100};
 
     //Misc menu things
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
@@ -72,17 +79,17 @@ public class Menu {
         if (!open) return;
 
         if (screenID == MENU_SCREEN){
-            if (buyButton.contains(x,y)) screenID = BUY_SCREEN;
-            else if (sellButton.contains(x,y)) screenID = SELL_SCREEN;
+            if (upgrade.contains(x,y)) screenID = UPGRADE_SCREEN;
+            else if (market.contains(x,y)) screenID = MARKET_SCREEN;
             else if (exit.contains(x,y)) close();
         } else {
             if (back.contains(x,y)) screenID = MENU_SCREEN;
-            else if (screenID == SELL_SCREEN){
-                for (int i = 0; i < sellButtons.length; i++){
-                    if (sellButtons[i].contains(x,y)){
-                        sellButtons[selected].style = sellStyle;
+            else if (screenID == MARKET_SCREEN){
+                for (int i = 0; i < markets.length; i++){
+                    if (markets[i].contains(x,y)){
+                        markets[selected].style = sellStyle;
                         selected = i;
-                        sellButtons[i].style = selectedStyle;
+                        markets[i].style = selectedStyle;
                     }
                 }
                 if (increaseAmount.contains(x,y)){
@@ -104,29 +111,30 @@ public class Menu {
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(60,60,780,480);
         g.setColor(Color.BLACK);
-        g.setFont(font);
+        g.setFont(fontSize50);
 
         if (screenID == MENU_SCREEN){
             drawCentered(g,"Space Station",450,90);
             exit.draw(g);
-            buyButton.draw(g);
-            sellButton.draw(g);
+            upgrade.draw(g);
+            market.draw(g);
         } else {
             back.draw(g);
-            if (screenID == BUY_SCREEN){
+            if (screenID == UPGRADE_SCREEN){
                 g.setColor(Color.GREEN);
                 g.fillOval(450,300,10,10);
-                for (int i = 0; i < buyButtons.length; i++){
-                    if (buyCosts[i] < money){
-                        buyButtons[i].style = cantAfford;
+                for (int i = 0; i < upgrades.length; i++){
+                    if (buyCosts[i] > money){
+                        upgrades[i].style = cantAfford;
                     } else {
-                        buyButtons[i].style = canBuy;
+                        upgrades[i].style = canBuy;
                     }
+                    upgrades[i].draw(g);
                 }
             }
-            else if (screenID == SELL_SCREEN){
+            else if (screenID == MARKET_SCREEN){
                 g.setColor(Color.DARK_GRAY);
-                for (Button b : sellButtons){
+                for (Button b : markets){
                     b.draw(g);
                 }
                 increaseAmount.draw(g);
@@ -218,6 +226,16 @@ public class Menu {
             borderBottom = bottom;
             borderLeft = left;
             borderRight = right;
+            return this;
+        }
+        public ButtonStyle setArcSize(int x){
+            arcWidth = x;
+            arcHeight = x;
+            return this;
+        }
+        public ButtonStyle setArcSize(int width, int height){
+            arcWidth = width;
+            arcHeight = height;
             return this;
         }
         public ButtonStyle setArcWidth(int x){
