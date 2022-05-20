@@ -98,8 +98,9 @@ public class GamePanel extends game.GamePanel {
         station.update();
 
         if (player.isColliding(station)){
-            player.setX(150);
-            player.setY(0);
+            player.setPos(150,0);
+            player.setRotation(0);
+            player.setVelocity(0,0);
             shop.open();
         }
 
