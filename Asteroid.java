@@ -4,8 +4,8 @@ import java.awt.Image;
 public class Asteroid extends Sprite {
 
     private static Image[] asteroidImages = new Image[3];
-    private double velX, velY, rotationSpeed;
-    static {   
+    static {  
+        //Load images 
         for (int i = 1; i < 4; i++){
             asteroidImages[i-1] = loadImage("assets/asteroid"+i+".png");
         }
@@ -21,12 +21,6 @@ public class Asteroid extends Sprite {
         
         rotation = Math.random()*360+1;
         rotationSpeed = Math.random()*2-1;
-    }
-
-    public void update(){
-        x += velX;
-        y += velY;
-        rotation += rotationSpeed;
     }
     //iron gold litium 
 }
