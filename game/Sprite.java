@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 /** This class is intended for displaying static images onto the screen */
 public class Sprite {
     protected double x, y; //Represents the sprites CENTER x and y
+    protected double velX, velY, rotationSpeed;
     protected int width,height;
     protected double rotation; //Rotation in degrees
     protected Image i;
@@ -65,9 +66,14 @@ public class Sprite {
     //Setters
     public void setX(double x){ this.x = x; }
     public void setY(double y){ this.y = y; }
-    public void setWdith(int width){ this.width = width; }
+    public void setPos(double x, double y){ this.x = x; this.y = y; }
+    public void setVelX(double x){ velX = x; }
+    public void setVelY(double y){ velY = y; }
+    public void setVelocity(double x, double y){ velX = x; velY = y; }
+    public void setWidth(int width){ this.width = width; }
     public void setHeight(int height){ this.height = height; }
     public void setRotation(double degrees){ this.rotation = degrees; }
+    public void setRotationSpeed(double degrees){ rotationSpeed = degrees; }
     public void setImage(Image i){ this.i = i; }
 
     //Ignores rotation
@@ -83,7 +89,11 @@ public class Sprite {
         return (new Rectangle((int)this.x-width/2,(int)this.y-height/2,width,height)).contains(x,y);
     }
 
-    public void update(){}
+    public void update(){
+        x += velX;
+        y += velY;
+        rotation += rotationSpeed;
+    }
 
     /** Draws the sprite */
     public void draw(Graphics2D g){
