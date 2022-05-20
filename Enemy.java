@@ -4,7 +4,6 @@ import java.awt.Image;
 
 public class Enemy extends Sprite {
     private Sprite target;
-    private double velX = 0, velY = 0;
     private double acceleration = 0.2; //Increases max speed by 5 per 0.1
     private double glide = 0.98;
     //private double followDistance = 150;
@@ -15,9 +14,9 @@ public class Enemy extends Sprite {
         this.target = target;
     }
     public void update(){
+        super.update();
+
         //Very basic tracking/pathfinding
-        x += velX;
-        y += velY;
 
         velX *= glide;
         velY *= glide;

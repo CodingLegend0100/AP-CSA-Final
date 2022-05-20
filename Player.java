@@ -8,7 +8,6 @@ public class Player extends Sprite {
     Sprite beam = new Sprite("assets/beam.png",0,0,100,100);
 
     private boolean mining = false;
-    private double velX = 0, velY = 0;
     private double turnSpeed = 2.5;
     private double acceleration = 0.2; //Increases max speed by 5 per 0.1
     private double glide = 0.98;
@@ -17,11 +16,17 @@ public class Player extends Sprite {
         super("assets/spaceship.png",150,150,0.1);
         this.k = k;
     }
+
+    public boolean isMining(){return mining;}
+
+    //Reverses the direction of the velocity vector
+    public void bounce(){
+        velX *= -1;
+        velY *= -1;
+    }
   
     public void update(){
-        //This is just for testing
-        x += velX;
-        y += velY;
+        super.update();
 
         //double velocity = Math.sqrt(velX*velX+velY*velY); //Calculate magnitude of velocity vector
         //System.out.println(velocity);
@@ -45,6 +50,7 @@ public class Player extends Sprite {
             velX -= (acceleration*Math.cos(rad))/2;
             velY -= (acceleration*Math.sin(rad))/2;
         }
+        
         if(k.isKeyDown("Space")){
             mining = true;
         } else { mining = false; }
@@ -56,16 +62,10 @@ public class Player extends Sprite {
         beam.setY(y);
         beam.setRotation(rotation);
     }
-    
-    public void bounce(){
-        velX = -velX;
-        velY = -velY;
-    }
 
     public void draw(Graphics2D g){
         super.draw(g);
 
         if (mining) beam.draw(g);
     }
-    public boolean isMining(){return mining;}
 }
