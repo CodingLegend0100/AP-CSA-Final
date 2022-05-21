@@ -24,7 +24,6 @@ public class Menu {
     //Fonts
     Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
     Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
-    Font fontSize20 = new Font(Font.DIALOG,Font.PLAIN,15);
     Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
 
     Button upgrade = new Button("Upgrades",150,250,250,100,
@@ -43,9 +42,9 @@ public class Menu {
     Button sellIron = new Button("Iron",110,215,150,50,sellStyle);
     Button sellGold = new Button("Gold",110,275,150,50,sellStyle);
     Button sellOsmium = new Button("Osmium",110,335,150,50,sellStyle);
-    Button sell1 = new Button("Sell",110,395,150,50,sellStyle);
+    Button sellPlatinum = new Button("Platinum",110,395,150,50,sellStyle);
     Button sell2 = new Button("Sell",110,455,150,50,sellStyle);
-    Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sell1,sell2};
+    Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sellPlatinum,sell2};
     int selected = 0;
     int sellAmount = 1;
 
@@ -57,9 +56,9 @@ public class Menu {
 
     //Buy buttons
     int money = 0;
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize20).setBackground(Color.RED).setArcSize(10);
-    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize20).setBackground(DARK_GREEN).setArcSize(10);
-    Button upgradeHull = new Button("Upgrade Hull",110,95,150,50,canBuy);
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
+    Button upgradeHull = new Button(new String[]{"Upgrade Hull","","Cost: "},110,95,150,50,canBuy);
     Button[] upgrades = {upgradeHull};
     int[] buyCosts = {100};
 
@@ -129,6 +128,7 @@ public class Menu {
                     } else {
                         upgrades[i].style = canBuy;
                     }
+                    upgrades[i].textLines[upgrades[i].textLines.length-1] = "Cost: "+buyCosts[i]+"";
                     upgrades[i].draw(g);
                 }
             }
@@ -154,12 +154,17 @@ public class Menu {
     }
 
     public class Button extends Rectangle {
-        String text;
+        String[] textLines;
         ButtonStyle style = new ButtonStyle();
         
-        public Button(String msg, int x, int y, int width, int height, ButtonStyle style){
+        public Button(String text, int x, int y, int width, int height, ButtonStyle style){
             super(x,y,width,height);
-            text = msg;
+            textLines = new String[]{text};
+            if (style != null) this.style = style;
+        }
+        public Button(String[] text, int x, int y, int width, int height, ButtonStyle style){
+            super(x,y,width,height);
+            textLines = text;
             if (style != null) this.style = style;
         }
 
@@ -177,12 +182,15 @@ public class Menu {
             if (style.font != null) g.setFont(style.font);
             if (style.fontColor != null) g.setColor(style.fontColor);
 
-            //Draws the text centered within the button
             FontMetrics fm = g.getFontMetrics();
-            Rectangle2D r = fm.getStringBounds(text, g);
-            int x = this.x+(this.width - (int) r.getWidth()) / 2;
-            int y = this.y+(this.height - (int) r.getHeight()) / 2 + fm.getAscent();
-            g.drawString(text, x, y);
+            int l = textLines.length;
+            //Draws the text centered within the button
+            for (int i = 0; i < l; i++){
+                Rectangle2D r = fm.getStringBounds(textLines[i], g);
+                int x = this.x+(this.width - (int) r.getWidth()) / 2;
+                int y = this.y+(this.height - (int) r.getHeight())*(i+1) / (l+1) + fm.getAscent();
+                g.drawString(textLines[i], x, y);
+            }
         }
     }
 
