@@ -17,7 +17,7 @@ public class Player extends Sprite {
         this.k = k;
     }
 
-    public boolean isMining(){return mining;}
+    public boolean isMining(){ return mining; }
 
     //Reverses the direction of the velocity vector
     public void bounce(){
