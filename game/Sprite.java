@@ -3,6 +3,7 @@ package game;
 import java.awt.Image;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /** This class is intended for displaying static images onto the screen */
@@ -77,7 +78,7 @@ public class Sprite {
     public void setImage(Image i){ this.i = i; }
 
     //Ignores rotation
-    public boolean isColliding(Sprite s){
+    public boolean checkCollision(Sprite s){
         //If this.right > s.left && this.left < s.right && this.bottom > s.top && this.top < s.bottom
         Rectangle r1 = new Rectangle((int)x-width/2,(int)y-height/2,width,height);
         Rectangle r2 = new Rectangle((int)s.x-s.width/2,(int)s.y-s.height/2,s.width,s.height);
@@ -87,6 +88,16 @@ public class Sprite {
     //Also ignores rotation
     public boolean contains(int x,int y){
         return (new Rectangle((int)this.x-width/2,(int)this.y-height/2,width,height)).contains(x,y);
+    }
+
+    public ArrayList<Sprite> checkCollisionList(ArrayList<Sprite> sprites){
+        ArrayList<Sprite> colliding = new ArrayList<Sprite>();
+        for (Sprite s : sprites){
+            if (checkCollision(s)){
+                colliding.add(s);
+            }
+        }
+        return colliding;
     }
 
     public void update(){

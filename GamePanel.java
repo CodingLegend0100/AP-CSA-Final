@@ -66,12 +66,12 @@ public class GamePanel extends game.GamePanel {
             }
 
             //New asteroid cannot be created because it collides with an existing one
-            if (create.isColliding(a)){
+            if (create.checkCollision(a)){
                 success = false; 
             }
 
             //Player collides with the asteroid
-            if (player.isColliding(a)){
+            if (player.checkCollision(a)){
                 if (player.isMining()){
                     //Player mines the asteroid
                     asteroids.remove(i);
@@ -97,7 +97,7 @@ public class GamePanel extends game.GamePanel {
         player.update();
         station.update();
 
-        if (player.isColliding(station)){
+        if (player.checkCollision(station)){
             player.setPos(150,0);
             player.setRotation(0);
             player.setVelocity(0,0);
