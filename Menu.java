@@ -1,10 +1,10 @@
 import game.Sprite;
+import menu.*;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 public class Menu {
@@ -24,44 +24,22 @@ public class Menu {
     //Fonts
     Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
     Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
-    Font fontSize20 = new Font(Font.DIALOG,Font.PLAIN,15);
     Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
 
-    Button upgrade = new Button("Upgrades",150,250,250,100,
+    Button upgradeBtn = new Button("Upgrades",150,250,250,100,
                                 new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN)
                                 );
 
-    Button market = new Button("Market",500,250,250,100,
+    Button marketBtn = new Button("Market",500,250,250,100,
                                 new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
                                 );
     
-    //Sell Buttons
-    ButtonStyle sellStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderWidth(0, 2, 0, 2);
-    ButtonStyle selectedStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
-    Button sellHydrogen = new Button("Hydrogen",70,110,150,50,selectedStyle);
-    Button sellLithium = new Button("Lithium",70,170,150,50,sellStyle);
-    Button sellIron = new Button("Iron",70,230,150,50,sellStyle);
-    Button sellGold = new Button("Gold",70,290,150,50,sellStyle);
-    Button sellOsmium = new Button("Osmium",70,350,150,50,sellStyle);
-    Button sellPlatinum = new Button("Platinum",70,410,150,50,sellStyle);
-    Button sell2 = new Button("Sell",70,470,150,50,sellStyle);
-    Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sellPlatinum,sell2};
-    int[] sellValues = {10          ,10         ,10      ,10      ,10        ,10          ,0};
-    int selected = 0;
-    int sellAmount = 1;
-
-    //Chart window (x 300, y 100, w 500, h 350)
-
-    ButtonStyle style3 = new ButtonStyle().setFont(fontSize15).setFontColor(Color.WHITE);
-    Button increase10 = new Button("+10",590,470,30,30,style3);
-    Button increase1 = new Button("+1",590,470,30,30,style3);
-    Button decrease1 = new Button("-1",480,470,30,30,style3);
-    Button[] sellButtons = {increase1,increase10,decrease1};
+    MarketMenu market = new MarketMenu();
 
     //Buy buttons
     int money = 0;
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize20).setBackground(Color.RED).setArcSize(10);
-    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize20).setBackground(DARK_GREEN).setArcSize(10);
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
     Button upgradeHull = new Button(new String[]{"Upgrade Hull","","Cost: "},110,95,150,50,canBuy);
     Button[] upgrades = {upgradeHull};
     int[] buyCosts = {100};
@@ -82,25 +60,13 @@ public class Menu {
         if (!open) return;
 
         if (screenID == MENU_SCREEN){
-            if (upgrade.contains(x,y)) screenID = UPGRADE_SCREEN;
-            else if (market.contains(x,y)) screenID = MARKET_SCREEN;
+            if (upgradeBtn.contains(x,y)) screenID = UPGRADE_SCREEN;
+            else if (marketBtn.contains(x,y)) screenID = MARKET_SCREEN;
             else if (exit.contains(x,y)) close();
         } else {
             if (back.contains(x,y)) screenID = MENU_SCREEN;
             else if (screenID == MARKET_SCREEN){
-                for (int i = 0; i < markets.length; i++){
-                    if (markets[i].contains(x,y)){
-                        markets[selected].style = sellStyle;
-                        selected = i;
-                        markets[i].style = selectedStyle;
-                    }
-                }
-                if (increase1.contains(x,y)){
-
-                }
-                else if (decrease1.contains(x,y)){
-
-                }
+                market.getInteraction(x,y);
             }
         }
     }
@@ -119,8 +85,8 @@ public class Menu {
         if (screenID == MENU_SCREEN){
             drawCentered(g,"Space Station",450,90);
             exit.draw(g);
-            upgrade.draw(g);
-            market.draw(g);
+            upgradeBtn.draw(g);
+            marketBtn.draw(g);
         } else {
             back.draw(g);
             if (screenID == UPGRADE_SCREEN){
@@ -137,15 +103,8 @@ public class Menu {
                 }
             }
             else if (screenID == MARKET_SCREEN){
-                g.setColor(Color.DARK_GRAY);
-                for (Button b : markets){
-                    b.draw(g);
-                }
-                for (Button b : sellButtons){
-                    b.draw(g);
-                }
-                g.setColor(Color.BLACK);
-                g.drawRect(300,100,500,350);
+                //Buttons
+                market.draw(g);
             }
         }
     }
@@ -156,108 +115,5 @@ public class Menu {
         int X = x-((int) r.getWidth()) / 2;
         int Y = y-((int) r.getHeight()) / 2 + fm.getAscent();
         g.drawString(text, X, Y);
-    }
-
-    public class Button extends Rectangle {
-        String[] textLines;
-        ButtonStyle style = new ButtonStyle();
-        
-        public Button(String text, int x, int y, int width, int height, ButtonStyle style){
-            super(x,y,width,height);
-            textLines = new String[]{text};
-            if (style != null) this.style = style;
-        }
-        public Button(String[] text, int x, int y, int width, int height, ButtonStyle style){
-            super(x,y,width,height);
-            textLines = text;
-            if (style != null) this.style = style;
-        }
-
-        public void draw(Graphics2D g){
-
-            if (style.border != null) g.setColor(style.border);
-            g.fillRoundRect(x,y,width,height,style.arcWidth,style.arcHeight);
-
-
-            if (style.background != null) g.setColor(style.background);
-            g.fillRoundRect(x+style.borderLeft,y+style.borderTop,
-                            width-style.borderLeft-style.borderRight,height-style.borderTop-style.borderBottom,
-                            style.arcWidth,style.arcHeight);
-
-            if (style.font != null) g.setFont(style.font);
-            if (style.fontColor != null) g.setColor(style.fontColor);
-
-            FontMetrics fm = g.getFontMetrics();
-            int l = textLines.length;
-            //Draws the text centered within the button
-            for (int i = 0; i < l; i++){
-                Rectangle2D r = fm.getStringBounds(textLines[i], g);
-                int x = this.x+(this.width - (int) r.getWidth()) / 2;
-                int y = this.y+(this.height - (int) r.getHeight())*(i+1) / (l+1) + fm.getAscent();
-                g.drawString(textLines[i], x, y);
-            }
-        }
-    }
-
-    public class ButtonStyle {
-        Font font;
-        Color fontColor = Color.BLACK;
-        Color background = Color.BLACK;
-        Color border = Color.BLACK;
-        int borderTop = 0;
-        int borderBottom = 0;
-        int borderLeft = 0;
-        int borderRight = 0;
-        int arcWidth = 0;
-        int arcHeight = 0;
-
-        public ButtonStyle setFont(Font f){
-            font = f;
-            return this;
-        }
-        public ButtonStyle setFontColor(Color c){
-            fontColor = c;
-            return this;
-        }
-        public ButtonStyle setBackground(Color c){
-            background = c;
-            return this;
-        }
-        public ButtonStyle setBorderColor(Color c){
-            border = c;
-            return this;
-        }
-        public ButtonStyle setBorderWidth(int x){
-            borderTop = x;
-            borderBottom = x;
-            borderLeft = x;
-            borderRight = x;
-            return this;
-        }
-        public ButtonStyle setBorderWidth(int top,int bottom,int left, int right){
-            borderTop = top;
-            borderBottom = bottom;
-            borderLeft = left;
-            borderRight = right;
-            return this;
-        }
-        public ButtonStyle setArcSize(int x){
-            arcWidth = x;
-            arcHeight = x;
-            return this;
-        }
-        public ButtonStyle setArcSize(int width, int height){
-            arcWidth = width;
-            arcHeight = height;
-            return this;
-        }
-        public ButtonStyle setArcWidth(int x){
-            arcWidth = x;
-            return this;
-        }
-        public ButtonStyle setArcHeight(int x){
-            arcHeight = x;
-            return this;
-        }
     }
 }
