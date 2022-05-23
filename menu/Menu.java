@@ -40,9 +40,12 @@ public class Menu {
     int money = 0;
     ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
-    Button upgradeHull = new Button(new String[]{"Upgrade Hull","","Cost: "},110,95,150,50,canBuy);
-    Button[] upgrades = {upgradeHull};
-    int[] buyCosts = {100};
+    Button upgradeHull = new Button(new String[]{"Hull","","Cost: "},110,110,150,50,canBuy);
+    Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},270,110,150,50,canBuy);
+    Button upgradeLazer = new Button(new String[]{"Mining Lazer","","Cost: "},430,110,150,50,canBuy);
+
+    Button[] upgrades = {upgradeHull,upgradeEngines,upgradeLazer};
+    int[] buyCosts = {100,500,200};
 
     //Misc menu things
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
