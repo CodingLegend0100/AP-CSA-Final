@@ -86,10 +86,12 @@ public class Sprite {
     }
 
     //Also ignores rotation
+    /** Checks if the specified point is is contained within the sprite */
     public boolean contains(int x,int y){
-        return (new Rectangle((int)this.x-width/2,(int)this.y-height/2,width,height)).contains(x,y);
+        return this.x < x && this.y < y && this.x+width > x && this.y+height > y;
     }
 
+    /** Returns an ArrayList of sprites that this sprite is colliding with */
     public ArrayList<Sprite> checkCollisionList(ArrayList<Sprite> sprites){
         ArrayList<Sprite> colliding = new ArrayList<Sprite>();
         for (Sprite s : sprites){
