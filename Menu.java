@@ -24,6 +24,7 @@ public class Menu {
     //Fonts
     Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
     Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
+    Font fontSize20 = new Font(Font.DIALOG,Font.PLAIN,15);
     Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
 
     Button upgrade = new Button("Upgrades",150,250,250,100,
@@ -37,27 +38,30 @@ public class Menu {
     //Sell Buttons
     ButtonStyle sellStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderWidth(0, 2, 0, 2);
     ButtonStyle selectedStyle = new ButtonStyle().setFont(fontSize25).setFontColor(Color.WHITE).setBackground(Color.GRAY).setArcSize(10).setBorderColor(Color.WHITE).setBorderWidth(0, 2, 0, 2);;
-    Button sellHydrogen = new Button("Hydrogen",110,95,150,50,selectedStyle);
-    Button sellLithium = new Button("Lithium",110,155,150,50,sellStyle);
-    Button sellIron = new Button("Iron",110,215,150,50,sellStyle);
-    Button sellGold = new Button("Gold",110,275,150,50,sellStyle);
-    Button sellOsmium = new Button("Osmium",110,335,150,50,sellStyle);
-    Button sellPlatinum = new Button("Platinum",110,395,150,50,sellStyle);
-    Button sell2 = new Button("Sell",110,455,150,50,sellStyle);
+    Button sellHydrogen = new Button("Hydrogen",70,110,150,50,selectedStyle);
+    Button sellLithium = new Button("Lithium",70,170,150,50,sellStyle);
+    Button sellIron = new Button("Iron",70,230,150,50,sellStyle);
+    Button sellGold = new Button("Gold",70,290,150,50,sellStyle);
+    Button sellOsmium = new Button("Osmium",70,350,150,50,sellStyle);
+    Button sellPlatinum = new Button("Platinum",70,410,150,50,sellStyle);
+    Button sell2 = new Button("Sell",70,470,150,50,sellStyle);
     Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sellPlatinum,sell2};
+    int[] sellValues = {10          ,10         ,10      ,10      ,10        ,10          ,0};
     int selected = 0;
     int sellAmount = 1;
 
     //Chart window (x 300, y 100, w 500, h 350)
 
     ButtonStyle style3 = new ButtonStyle().setFont(fontSize15).setFontColor(Color.WHITE);
-    Button increaseAmount = new Button("+1",590,470,30,30,style3);
-    Button decreaseAmount = new Button("-1",480,470,30,30,style3);
+    Button increase10 = new Button("+10",590,470,30,30,style3);
+    Button increase1 = new Button("+1",590,470,30,30,style3);
+    Button decrease1 = new Button("-1",480,470,30,30,style3);
+    Button[] sellButtons = {increase1,increase10,decrease1};
 
     //Buy buttons
     int money = 0;
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
-    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize20).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize20).setBackground(DARK_GREEN).setArcSize(10);
     Button upgradeHull = new Button(new String[]{"Upgrade Hull","","Cost: "},110,95,150,50,canBuy);
     Button[] upgrades = {upgradeHull};
     int[] buyCosts = {100};
@@ -91,10 +95,10 @@ public class Menu {
                         markets[i].style = selectedStyle;
                     }
                 }
-                if (increaseAmount.contains(x,y)){
+                if (increase1.contains(x,y)){
 
                 }
-                else if (decreaseAmount.contains(x,y)){
+                else if (decrease1.contains(x,y)){
 
                 }
             }
@@ -128,7 +132,7 @@ public class Menu {
                     } else {
                         upgrades[i].style = canBuy;
                     }
-                    upgrades[i].textLines[upgrades[i].textLines.length-1] = "Cost: "+buyCosts[i]+"";
+                    upgrades[i].textLines[2] = "Cost: "+buyCosts[i]+"";
                     upgrades[i].draw(g);
                 }
             }
@@ -137,8 +141,9 @@ public class Menu {
                 for (Button b : markets){
                     b.draw(g);
                 }
-                increaseAmount.draw(g);
-                decreaseAmount.draw(g);
+                for (Button b : sellButtons){
+                    b.draw(g);
+                }
                 g.setColor(Color.BLACK);
                 g.drawRect(300,100,500,350);
             }
