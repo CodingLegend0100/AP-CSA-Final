@@ -1,5 +1,5 @@
+package menu;
 import game.Sprite;
-import menu.*;
 
 import java.awt.Color;
 import java.awt.Font;
