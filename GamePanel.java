@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 public class GamePanel extends game.GamePanel {
-    private int points = 0;
     private static final int width = 900, height = 600;
     private static final int FPS = 60;
 
@@ -53,7 +52,7 @@ public class GamePanel extends game.GamePanel {
         boolean success = ((int)(Math.random()*60+1)) == 1 && asteroids.size() <= 49;
         
         for(int i=0;i<asteroids.size();i++){
-            Sprite a = asteroids.get(i);
+            Asteroid a = (Asteroid) asteroids.get(i);
             
             a.update();
             
@@ -74,9 +73,9 @@ public class GamePanel extends game.GamePanel {
             if (player.checkCollision(a)){
                 if (player.isMining()){
                     //Player mines the asteroid
+                    player.collect(a.getResources());
                     asteroids.remove(i);
                     i--;
-                    points++;
                 } else {
                     //Player bounces off asteroid
                     player.bounce();
@@ -162,7 +161,6 @@ public class GamePanel extends game.GamePanel {
 
         //long drawTime = System.nanoTime() - drawStart;
         //g2.drawString("Draw Time: "+drawTime,10,10);
-        g2.drawString("Points: "+points,10,10);
         shop.draw(g2); //Draw shop menu
 
         g2.dispose(); //Get rid of the graphics when we are done
