@@ -9,6 +9,15 @@ public class Button extends Rectangle {
     public String[] textLines;
     public ButtonStyle style = new ButtonStyle();
     
+    public Button(String text, int x, int y, int width, int height){
+        super(x,y,width,height);
+        textLines = new String[]{text};
+    }
+    public Button(String[] text, int x, int y, int width, int height){
+        super(x,y,width,height);
+        textLines = text;
+    }
+    
     public Button(String text, int x, int y, int width, int height, ButtonStyle style){
         super(x,y,width,height);
         textLines = new String[]{text};
