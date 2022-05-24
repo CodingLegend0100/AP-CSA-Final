@@ -88,7 +88,7 @@ public class Sprite {
     //Also ignores rotation
     /** Checks if the specified point is is contained within the sprite */
     public boolean contains(int x,int y){
-        return this.x < x && this.y < y && this.x+width > x && this.y+height > y;
+        return this.x-width/2 < x && this.y-height/2 < y && this.x+width > x && this.y+height > y;
     }
 
     /** Returns an ArrayList of sprites that this sprite is colliding with */
