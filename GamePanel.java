@@ -1,4 +1,5 @@
 import game.Sprite;
+import menu.Menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
