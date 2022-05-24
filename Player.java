@@ -15,7 +15,7 @@ public class Player extends Sprite {
     private HashMap<String,Integer> inventory = new HashMap<String,Integer>();
 
     public Player(GamePanel.KeyInput k){
-        super("assets/spaceship.png",150,150,0.1);
+        super("assets/spaceship.png",150,0,0.1);
         this.k = k;
     }
 
