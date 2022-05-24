@@ -71,6 +71,14 @@ public class Player extends Sprite {
         beam.setRotation(rotation);
     }
 
+    public HashMap<String,Integer> getInventory(){
+        return inventory;
+    }
+
+    public void upgrade(int upgrade){
+        
+    }
+
     public void draw(Graphics2D g){
         super.draw(g);
 

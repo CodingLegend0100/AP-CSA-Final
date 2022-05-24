@@ -3,14 +3,14 @@ import menu.Menu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
+//import java.awt.Image;
 import java.util.ArrayList;
 
 public class GamePanel extends game.GamePanel {
     private static final int width = 900, height = 600;
     private static final int FPS = 60;
 
-    private Image[] enemyImages = new Image[4];
+    //private Image[] enemyImages = new Image[4];
 
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();  
@@ -24,14 +24,14 @@ public class GamePanel extends game.GamePanel {
         super(width,height,FPS);
         
         //Load images
-        for (int i = 1; i <= 4; i++){
-            enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
-        }
+        //for (int i = 1; i <= 4; i++){
+        //    enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
+        //}
 
-        enemies.add(new Enemy(enemyImages[0],-75,150,player));
-        enemies.add(new Enemy(enemyImages[1],-25,150,player));
-        enemies.add(new Enemy(enemyImages[2],25,150,player));
-        enemies.add(new Enemy(enemyImages[3],75,150,player));
+        //enemies.add(new Enemy(enemyImages[0],-75,150,player));
+        //enemies.add(new Enemy(enemyImages[1],-25,150,player));
+        //enemies.add(new Enemy(enemyImages[2],25,150,player));
+        //enemies.add(new Enemy(enemyImages[3],75,150,player));
 
         start();
     }
@@ -125,7 +125,8 @@ public class GamePanel extends game.GamePanel {
     }
 
     public void mousePressed(int x, int y){
-        shop.getInteraction(x, y);
+        shop.resources = player.getInventory();
+        player.upgrade(shop.getInteraction(x, y));
     }
 
 
