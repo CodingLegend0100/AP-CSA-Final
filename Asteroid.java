@@ -25,14 +25,13 @@ public class Asteroid extends Sprite {
         rotation = Math.random()*360+1;
         rotationSpeed = Math.random()*2-1;
 
-        //TODO: Add randomness to resource amounts
         //Valuable materials have larger amounts further from the station?
-        resources.put("Iron",10);
-        resources.put("Gold",10);
-        resources.put("Hydrogen",10);
-        resources.put("Osmium",10);
-        resources.put("Lithium",10);
-        resources.put("Platinum",10);
+        resources.put("Iron",(int)Math.random()*10+1);
+        resources.put("Gold",(int)Math.random()*10+1);
+        resources.put("Hydrogen",(int)Math.random()*10+1);
+        resources.put("Osmium",(int)Math.random()*10+1);
+        resources.put("Lithium",(int)Math.random()*10+1);
+        resources.put("Platinum",(int)Math.random()*10+1);
     }
 
     public HashMap<String,Integer> getResources(){
