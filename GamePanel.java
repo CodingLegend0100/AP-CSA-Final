@@ -2,6 +2,7 @@ import game.Sprite;
 import menu.Menu;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 //import java.awt.Image;
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 public class GamePanel extends game.GamePanel {
     private static final int width = 900, height = 600;
     private static final int FPS = 60;
+
+    int tutorial = 0;
+    int tutorialFrames = -1;
 
     //private Image[] enemyImages = new Image[4];
 
@@ -77,9 +81,11 @@ public class GamePanel extends game.GamePanel {
                     player.collect(a.getResources());
                     asteroids.remove(i);
                     i--;
+                    if (tutorial == 7) tutorial++;
                 } else {
                     //Player bounces off asteroid
                     player.bounce();
+                    if (tutorial == 5) tutorial++;
                 }
             }
         }
@@ -90,6 +96,11 @@ public class GamePanel extends game.GamePanel {
 
     /** Update positions of objects on the screen */
     public void update(){
+        if (tutorialFrames > -1) tutorialFrames--;
+        if (tutorialFrames == 0){
+            tutorial++;
+            if (tutorial == 4) tutorialFrames = 120;
+        }
         
         if (shop.isOpen()) return;
 
@@ -102,6 +113,7 @@ public class GamePanel extends game.GamePanel {
             player.setRotation(0);
             player.setVelocity(0,0);
             shop.open();
+            if (tutorial == 8) tutorial++;
         }
 
         for (Sprite e : enemies){
@@ -115,7 +127,16 @@ public class GamePanel extends game.GamePanel {
         //System.out.println(key);
         if (key.equals("Escape")){
             shop.close();
+            if (tutorial == 9) tutorial++;
         }
+
+        else if (key.equals("W") && tutorial == 0) tutorial++;
+        else if ((key.equals("A") || key.equals("D")) && tutorial == 1) tutorial++;
+        else if (key.equals("S") && tutorial == 2){
+            tutorial++;
+            tutorialFrames = 180;
+        }
+        else if (key.equals("Space") && tutorial == 6) tutorial++;
 
 
     }
@@ -164,6 +185,21 @@ public class GamePanel extends game.GamePanel {
         //long drawTime = System.nanoTime() - drawStart;
         //g2.drawString("Draw Time: "+drawTime,10,10);
         shop.draw(g2); //Draw shop menu
+
+        g2.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
+        if (tutorial == 0) g2.drawString("Welcome trainee! To begin piloting, press W to move forward",10,25);
+        if (tutorial == 1) g2.drawString("Use the A and D keys to turn",10,25);
+        if (tutorial == 2) g2.drawString("Now hold S to go backwards",10,25);
+        if (tutorial == 3) g2.drawString("Great! Now you've mastered the basics of piloting.",10,25);
+        if (tutorial == 4) g2.drawString("Now its time to mine",10,25);
+        if (tutorial == 5) g2.drawString("Run into the nearest asteroid",10,25);
+        if (tutorial == 6) g2.drawString("Now hold space to activate the mining lazer",10,25);
+        if (tutorial == 7) g2.drawString("Hit an asteroid with the lazer to mine it",10,25);
+        if (tutorial == 8) g2.drawString("Perfect! Follow the white dot back to the station",10,25);
+        if (tutorial == 9) g2.drawString("This is the station, here you can sell materials to upgrade your ship",10,25);
+
+
+
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
