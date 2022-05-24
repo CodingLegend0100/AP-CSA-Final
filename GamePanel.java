@@ -54,7 +54,8 @@ public class GamePanel extends game.GamePanel {
         Sprite create = new Asteroid(X,Y); //The asteroid being created
 
         //The asteroid will be created
-        boolean success = ((int)(Math.random()*60+1)) == 1 && asteroids.size() <= 49;
+                        //  Random chance to create    Limit total asteroid count   Prevent generation near station
+        boolean success = ((int)(Math.random()*60+1)) == 1 && asteroids.size() <= 49 && X*X+Y*Y >= 250000;
         
         for(int i=0;i<asteroids.size();i++){
             Asteroid a = (Asteroid) asteroids.get(i);
