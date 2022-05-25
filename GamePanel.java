@@ -147,7 +147,7 @@ public class GamePanel extends game.GamePanel {
     }
 
     public void mousePressed(int x, int y){
-        shop.resources = player.getInventory();
+        Menu.resources = player.getInventory();
         player.upgrade(shop.getInteraction(x, y));
     }
 

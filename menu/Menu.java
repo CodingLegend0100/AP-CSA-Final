@@ -11,8 +11,8 @@ import java.util.HashMap;
 public class Menu {
     //Screen dimensions 900x600
     //I honestly dont know what the best way to do this is
-    public HashMap<String,Integer> resources;
-    public int money = 0;
+    public static HashMap<String,Integer> resources;
+    public static int money = 0;
 
     private boolean open = false;
     private int screenID;
@@ -36,9 +36,6 @@ public class Menu {
     Button marketBtn = new Button("Market",500,250,250,100,
                                 new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
                                 );
-    
-    MarketMenu market = new MarketMenu();
-
     //Buy buttons
     ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
@@ -71,7 +68,7 @@ public class Menu {
         } else {
             if (back.contains(x,y)) screenID = MENU_SCREEN;
             else if (screenID == MARKET_SCREEN){
-                market.getInteraction(x,y);
+                MarketMenu.getInteraction(x,y);
             }
             else if (screenID == UPGRADE_SCREEN){
                 for (int i = 0; i < upgrades.length; i++){
@@ -114,7 +111,7 @@ public class Menu {
                 }
             }
             else if (screenID == MARKET_SCREEN){
-                market.draw(g);
+                MarketMenu.draw(g);
             }
         }
     }
