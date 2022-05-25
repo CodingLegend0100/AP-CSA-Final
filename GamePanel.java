@@ -90,7 +90,18 @@ public class GamePanel extends game.GamePanel {
 
     /** Update positions of objects on the screen */
     public void update(){
-        
+        for(int i=0;i<asteroids.size();i++){
+            if(player.isMining()&&player.checkCollision(asteroids.get(i))){
+                Asteroid a = (Asteroid) asteroids.get(i);
+                 int n=0;
+                 while(n<6){
+                    System.out.println(n + " = " + a.getResources().get(n));
+                    n++;
+                }
+                System.out.println();
+                
+            }
+        }
         if (shop.isOpen()) return;
 
         manageAsteroids();
