@@ -23,7 +23,7 @@ public class MarketMenu {
     static Button sellPlatinum = new Button("Platinum",70,410,150,50,sellStyle);
     static Button sell2 = new Button("Sell",70,470,150,50,sellStyle);
     static Button[] markets = {sellHydrogen,sellLithium,sellIron,sellGold,sellOsmium,sellPlatinum,sell2};
-    static int[] sellValues = {10          ,10         ,05      ,10      ,10        ,10          ,0};
+    static int[] sellValues = {01          ,07         ,03      , 5      ,10        ,06          ,0};
     static Button sellButton = new Button("Sell - ",480,490,100,30,new ButtonStyle().setFont(fontSize15).setFontColor(Color.WHITE).setArcSize(10).setBackground(DARK_GREEN));
     static int selected = 0;
     static int sellAmount = 1;
