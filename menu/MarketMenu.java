@@ -53,7 +53,15 @@ public class MarketMenu {
         else if (decrease1.contains(x,y))   sellAmount -= 1;
         else if (decrease10.contains(x,y))  sellAmount -= 10;
         else if (decrease100.contains(x,y)) sellAmount -= 100;
-        if (sellAmount <= 0) sellAmount = 1;
+        if (sellAmount < 0) sellAmount = 0;
+        if (sellAmount > Menu.resources.getOrDefault(markets[selected].textLines[0], 0))
+            sellAmount = Menu.resources.getOrDefault(markets[selected].textLines[0], 0);
+
+        if (sellButton.contains(x,y)){
+            Menu.money += sellAmount*sellValues[selected];
+            Menu.resources.put(markets[selected].textLines[0],Menu.resources.getOrDefault(markets[selected].textLines[0], 0)-sellAmount);
+            sellAmount = 0;
+        }
     }
 
     public static void draw(Graphics2D g){
@@ -74,6 +82,7 @@ public class MarketMenu {
         g.setFont(fontSize25);
         drawCentered(g,markets[selected].textLines[0],530,90);
         g.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
+        drawLeft(g,"$"+Menu.money,260,95);
         drawRight(g,"You have: "+Menu.resources.getOrDefault(markets[selected].textLines[0], 0),800,95);
 
     }
@@ -92,5 +101,12 @@ public class MarketMenu {
         int X = x-((int) r.getWidth());
         int Y = y-((int) r.getHeight()) / 2 + fm.getAscent();
         g.drawString(text, X, Y);
+    }
+
+    private static void drawLeft(Graphics2D g,String text, int x, int y){
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D r = fm.getStringBounds(text, g);
+        int Y = y-((int) r.getHeight()) / 2 + fm.getAscent();
+        g.drawString(text, x, Y);
     }
 }
