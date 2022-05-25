@@ -191,6 +191,7 @@ public class GamePanel extends game.GamePanel {
         shop.draw(g2); //Draw shop menu
 
         g2.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
+        g2.setColor(Color.WHITE);
         if (tutorial == 0) g2.drawString("Welcome trainee! To begin piloting, press W to move forward",10,25);
         if (tutorial == 1) g2.drawString("Use the A and D keys to turn",10,25);
         if (tutorial == 2) g2.drawString("Now hold S to go backwards",10,25);
