@@ -2,7 +2,7 @@
 
 [Click to download](https://github.com/CodingLegend0100/AP-CSA-Final/zipball/release)
 
-### Download instructions
+### Installation instructions
 
 1. Download the project .zip
 2. Unzip the folder
