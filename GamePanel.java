@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 //import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GamePanel extends game.GamePanel {
     private static final int width = 900, height = 600;
@@ -79,7 +80,10 @@ public class GamePanel extends game.GamePanel {
             if (player.checkCollision(a)){
                 if (player.isMining()){
                     //Player mines the asteroid
-                    player.collect(a.getResources());
+                    HashMap<String,Integer> resources = a.getResources();
+                    for (String k : resources.keySet()){
+                        Menu.resources.put(k,Menu.resources.getOrDefault(k, 0)+resources.get(k));
+                    }
                     asteroids.remove(i);
                     i--;
                     if (tutorial == 7) tutorial++;
@@ -147,7 +151,6 @@ public class GamePanel extends game.GamePanel {
     }
 
     public void mousePressed(int x, int y){
-        Menu.resources = player.getInventory();
         player.upgrade(shop.getInteraction(x, y));
     }
 
@@ -198,8 +201,6 @@ public class GamePanel extends game.GamePanel {
         if (tutorial == 7) g2.drawString("Hit an asteroid with the lazer to mine it",10,25);
         if (tutorial == 8) g2.drawString("Perfect! Follow the white dot back to the station",10,25);
         if (tutorial == 9) g2.drawString("This is the station, here you can sell materials to upgrade your ship",10,25);
-
-
 
 
         g2.dispose(); //Get rid of the graphics when we are done

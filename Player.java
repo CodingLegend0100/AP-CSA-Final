@@ -1,7 +1,6 @@
 import game.Sprite;
 
 import java.awt.Graphics2D;
-import java.util.HashMap;
 
 public class Player extends Sprite {
     GamePanel.KeyInput k; //The key input handler
@@ -12,7 +11,6 @@ public class Player extends Sprite {
     private double turnSpeed = 2.5;
     private double acceleration = 0.2; //Increases max speed by 5 per 0.1
     private double glide = 0.98;
-    private HashMap<String,Integer> inventory = new HashMap<String,Integer>();
 
     public Player(GamePanel.KeyInput k){
         super("assets/spaceship.png",150,0,0.1);
@@ -25,12 +23,6 @@ public class Player extends Sprite {
     public void bounce(){
         velX *= -1;
         velY *= -1;
-    }
-
-    public void collect(HashMap<String,Integer> resources){
-        for (String k : resources.keySet()){
-            inventory.put(k,inventory.getOrDefault(k, 0)+resources.get(k));
-        }
     }
   
     public void update(){
@@ -69,10 +61,6 @@ public class Player extends Sprite {
         beam.setX(x);
         beam.setY(y);
         beam.setRotation(rotation);
-    }
-
-    public HashMap<String,Integer> getInventory(){
-        return inventory;
     }
 
     public void upgrade(int upgrade){

@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Menu {
     //Screen dimensions 900x600
     //I honestly dont know what the best way to do this is
-    public static HashMap<String,Integer> resources;
+    public static HashMap<String,Integer> resources = new HashMap<String,Integer>();
     public static int money = 0;
 
     private boolean open = false;
