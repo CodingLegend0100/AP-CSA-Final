@@ -23,21 +23,20 @@ public class Menu {
 
     //Colors
     Color DARK_GREEN = new Color(0,150,0);
+    Color DARK_RED = new Color(200,0,0);
 
     //Fonts
     Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
     Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
-    Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
+    Font fontSize15 = new Font(Font.DIALOG,Font.BOLD,15);
 
     Button upgradeBtn = new Button("Upgrades",150,250,250,100,
-                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN)
-                                );
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN));
 
     Button marketBtn = new Button("Market",500,250,250,100,
-                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
-                                );
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_RED));
     //Buy buttons
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
     Button upgradeHull = new Button(new String[]{"Hull","","Cost: "},110,110,150,50,canBuy);
     Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},270,110,150,50,canBuy);
