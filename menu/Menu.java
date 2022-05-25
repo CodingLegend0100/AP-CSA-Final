@@ -6,10 +6,13 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 public class Menu {
     //Screen dimensions 900x600
     //I honestly dont know what the best way to do this is
+    public static HashMap<String,Integer> resources = new HashMap<String,Integer>();
+    public static int money = 0;
 
     private boolean open = false;
     private int screenID;
@@ -20,25 +23,20 @@ public class Menu {
 
     //Colors
     Color DARK_GREEN = new Color(0,150,0);
+    Color DARK_RED = new Color(200,0,0);
 
     //Fonts
     Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
     Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
-    Font fontSize15 = new Font(Font.DIALOG,Font.PLAIN,15);
+    Font fontSize15 = new Font(Font.DIALOG,Font.BOLD,15);
 
     Button upgradeBtn = new Button("Upgrades",150,250,250,100,
-                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN)
-                                );
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN));
 
     Button marketBtn = new Button("Market",500,250,250,100,
-                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(new Color(200,0,0))
-                                );
-    
-    MarketMenu market = new MarketMenu();
-
+                                new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_RED));
     //Buy buttons
-    int money = 0;
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(Color.RED).setArcSize(10);
+    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
     Button upgradeHull = new Button(new String[]{"Hull","","Cost: "},110,110,150,50,canBuy);
     Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},270,110,150,50,canBuy);
@@ -59,8 +57,8 @@ public class Menu {
     public void close(){ open = false; }
     public boolean isOpen(){ return open; }
 
-    public void getInteraction(int x, int y){
-        if (!open) return;
+    public int getInteraction(int x, int y){
+        if (!open) return 0;
 
         if (screenID == MENU_SCREEN){
             if (upgradeBtn.contains(x,y)) screenID = UPGRADE_SCREEN;
@@ -69,9 +67,15 @@ public class Menu {
         } else {
             if (back.contains(x,y)) screenID = MENU_SCREEN;
             else if (screenID == MARKET_SCREEN){
-                market.getInteraction(x,y);
+                MarketMenu.getInteraction(x,y);
+            }
+            else if (screenID == UPGRADE_SCREEN){
+                for (int i = 0; i < upgrades.length; i++){
+                    if (upgrades[i].contains(x,y)) return i+1;
+                }
             }
         }
+        return 0;
     }
 
     public void draw(Graphics2D g){
@@ -93,8 +97,8 @@ public class Menu {
         } else {
             back.draw(g);
             if (screenID == UPGRADE_SCREEN){
-                g.setColor(Color.GREEN);
-                g.fillOval(450,300,10,10);
+                g.setFont(fontSize25);
+                drawCentered(g,"Upgrades",450,80);
                 for (int i = 0; i < upgrades.length; i++){
                     if (buyCosts[i] > money){
                         upgrades[i].style = cantAfford;
@@ -106,8 +110,7 @@ public class Menu {
                 }
             }
             else if (screenID == MARKET_SCREEN){
-                //Buttons
-                market.draw(g);
+                MarketMenu.draw(g);
             }
         }
     }
