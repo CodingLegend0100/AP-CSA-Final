@@ -11,8 +11,11 @@ public class Asteroid extends Sprite {
             asteroidImages[i-1] = loadImage("assets/asteroid"+i+".png");
         }
     }
-    
-    private HashMap<String,Integer> resources = new HashMap<String,Integer>(); 
+
+    private HashMap<String,Integer> startingResources = new HashMap<String,Integer>(); 
+    private HashMap<String,Integer> resources = new HashMap<String,Integer>();
+    private int initialWidth, initialHeight;
+    private int timesMined;
 
     public Asteroid(double x, double y){
         
@@ -21,6 +24,9 @@ public class Asteroid extends Sprite {
             x,y,   //Position
             Math.random()*.3+.3 //Image Scale
         );
+
+        initialWidth = width;
+        initialHeight = height;
         
         rotation = Math.random()*360+1;
         rotationSpeed = Math.random()*2-1;
@@ -39,10 +45,25 @@ public class Asteroid extends Sprite {
     }
 
     public HashMap<String,Integer> mine(int strength){
-        return resources;
+        //Mine the asteroid for a portion of its resources
+        HashMap<String,Integer> mined = new HashMap<String,Integer>();
+        for (String k : startingResources.keySet()){
+            int toAdd = startingResources.getOrDefault(k, 0) * strength / 20; //Calculate resources to mine
+            toAdd = Math.min(toAdd,resources.getOrDefault(k,0));
+            mined.put(k,toAdd);
+            resources.put(k,resources.getOrDefault(k,0)-toAdd);
+        }
+
+        //Decrease size of the asteroid
+        timesMined += strength;
+        width -= strength * initialWidth / 20;
+        height -= strength * initialHeight / 20;
+
+        //Return the resources collected from mining
+        return mined;
     }
 
     public boolean destroyed(){
-        return false;
+        return timesMined >= 20;
     }
 }
