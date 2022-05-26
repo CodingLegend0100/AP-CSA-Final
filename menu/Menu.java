@@ -1,7 +1,6 @@
 package menu;
 
 import game.Sprite;
-import sprites.Player;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -47,7 +46,7 @@ public class Menu {
     Button newShip = new Button(new String[]{"Buy New Ship","","Cost:"},250,450,400,50,canBuy);
 
 
-    Button[] upgrades = {upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity,newShip};
+    Button[] upgrades = {newShip,upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity};
     int[] buyCosts = {100,400,250,900,1000000};
 
     //Misc menu things
@@ -75,9 +74,14 @@ public class Menu {
                 MarketMenu.getInteraction(x,y);
             }
             else if (screenID == UPGRADE_SCREEN){
-                if (upgradeShield.contains(x,y)) return Player.UPGRADE_SHIELD;
-                else if (upgradeEngines.contains(x,y)) return Player.UPGRADE_SPEED;
-                else if (newShip.contains(x,y)) return Player.UPGRADE_SHIP;
+                for (int i = 0; i < upgrades.length; i++){
+                    if (upgrades[i].contains(x,y)){
+                        if (money >= buyCosts[i]){
+                            money -= buyCosts[i];
+                            return i;
+                        }
+                    }
+                }
             }
         }
         return 0;
