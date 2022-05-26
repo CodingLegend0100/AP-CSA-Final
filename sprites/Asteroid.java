@@ -1,3 +1,4 @@
+package sprites;
 import game.Sprite;
 import java.awt.Image;
 import java.util.HashMap;

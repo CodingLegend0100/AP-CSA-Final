@@ -1,3 +1,6 @@
+package sprites;
+
+import game.GamePanel;
 import game.Sprite;
 
 import java.awt.Graphics2D;
@@ -6,11 +9,11 @@ import java.util.HashMap;
 public class Player extends Sprite {
     GamePanel.KeyInput k; //The key input handler
 
+    public static int UPGRADE_SHIP = 0;
     public static int UPGRADE_SHIELD = 1;
     public static int UPGRADE_SPEED = 2;
     public static int UPGRADE_MINING = 3;
     public static int UPGRADE_CAPACITY = 4;
-    public static int UPGRADE_SHIP = -1;
 
     private Sprite beam = new Sprite("assets/beam.png",0,0,100,100);
     private boolean mining = false;

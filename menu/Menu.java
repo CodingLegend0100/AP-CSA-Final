@@ -1,4 +1,5 @@
 package menu;
+
 import game.Sprite;
 
 import java.awt.Color;
@@ -38,15 +39,20 @@ public class Menu {
     //Buy buttons
     ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
-    Button upgradeShield = new Button(new String[]{"Shields","","Cost: "},135,110,150,50,canBuy);
-    Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},295,110,150,50,canBuy);
-    Button upgradeLazer = new Button(new String[]{"Mining Lazer","","Cost: "},455,110,150,50,canBuy);
-    Button upgradeCapacity = new Button(new String[]{"Hull Capacity","","Cost: "},615,110,150,50,canBuy);
-    Button newShip = new Button(new String[]{"Buy New Ship","","Cost:"},250,450,400,50,canBuy);
+    Button upgradeShield = new Button(new String[]{"Shields ","","Cost: "},135,110,150,50,canBuy);
+    Button upgradeEngines = new Button(new String[]{"Engines ","","Cost: "},295,110,150,50,canBuy);
+    Button upgradeLazer = new Button(new String[]{"Mining Lazer ","","Cost: "},455,110,150,50,canBuy);
+    Button upgradeCapacity = new Button(new String[]{"Hull Capacity ","","Cost: "},615,110,150,50,canBuy);
+    Button newShip = new Button(new String[]{"Buy New Ship ","","Cost:"},250,450,400,50,canBuy);
 
 
-    Button[] upgrades = {upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity,newShip};
-    int[] buyCosts = {100,400,250,900,1000000};
+    Button[] upgrades = {newShip,upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity};
+    int[] buyCosts = {1_000_000,100,400,250,900};
+    int[] levelIncrease = {750_000,50,0,0,0}; //Price will increase by this amount*level
+    int[] priceIncreaseConst = {500_000,0,0,0,0}; //Price will always increase by this amount
+    
+    int[] upgradeLevels = new int[upgrades.length]; //Current level of the upgrade
+    int[] maxLevels = {10,10,10,10,10}; //Max level of the upgrade
 
     //Misc menu things
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
@@ -74,11 +80,24 @@ public class Menu {
             }
             else if (screenID == UPGRADE_SCREEN){
                 for (int i = 0; i < upgrades.length; i++){
-                    if (upgrades[i].contains(x,y)) return i+1;
+                    if (upgrades[i].contains(x,y)){
+                        if (money >= buyCosts[i]){
+                            money -= buyCosts[i]; //Purchase the upgrade
+
+                            //Increase the cost of the next upgrade
+                            buyCosts[i] += priceIncreaseConst[i];
+                            buyCosts[i] += upgradeLevels[i]*levelIncrease[i];
+
+                            //Increase the level
+                            upgradeLevels[i] += 1;
+
+                            return i;
+                        }
+                    }
                 }
             }
         }
-        return 0;
+        return -1;
     }
 
     public void draw(Graphics2D g){
@@ -108,7 +127,13 @@ public class Menu {
                     } else {
                         upgrades[i].style = canBuy;
                     }
+
+                    //Displays the level on the buy button
+                    upgrades[i].textLines[0] = upgrades[i].textLines[0].substring(0,upgrades[i].textLines[0].lastIndexOf(" ")+1)+(upgradeLevels[i]+1);
+                    
+                    //Update the cost displayed on the button
                     upgrades[i].textLines[2] = "Cost: "+buyCosts[i]+"";
+
                     upgrades[i].draw(g);
                 }
             }
