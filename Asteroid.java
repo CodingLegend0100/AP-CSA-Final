@@ -37,4 +37,12 @@ public class Asteroid extends Sprite {
     public HashMap<String,Integer> getResources(){
         return resources;
     }
+
+    public HashMap<String,Integer> mine(int strength){
+        return resources;
+    }
+
+    public boolean destroyed(){
+        return false;
+    }
 }
