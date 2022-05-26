@@ -1,5 +1,8 @@
 import game.Sprite;
 import menu.Menu;
+import sprites.Asteroid;
+import sprites.Player;
+import sprites.SpaceStation;
 
 import java.awt.Color;
 import java.awt.Font;
