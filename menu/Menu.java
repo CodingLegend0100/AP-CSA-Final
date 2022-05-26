@@ -1,5 +1,7 @@
 package menu;
+
 import game.Sprite;
+import sprites.Player;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -73,9 +75,9 @@ public class Menu {
                 MarketMenu.getInteraction(x,y);
             }
             else if (screenID == UPGRADE_SCREEN){
-                for (int i = 0; i < upgrades.length; i++){
-                    if (upgrades[i].contains(x,y)) return i+1;
-                }
+                if (upgradeShield.contains(x,y)) return Player.UPGRADE_SHIELD;
+                else if (upgradeEngines.contains(x,y)) return Player.UPGRADE_SPEED;
+                else if (newShip.contains(x,y)) return Player.UPGRADE_SHIP;
             }
         }
         return 0;

@@ -1,3 +1,6 @@
+package sprites;
+
+import game.GamePanel;
 import game.Sprite;
 
 import java.awt.Graphics2D;

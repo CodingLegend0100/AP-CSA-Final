@@ -1,3 +1,4 @@
+package sprites;
 import game.Sprite;
 
 public class SpaceStation extends Sprite {
