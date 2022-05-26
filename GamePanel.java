@@ -9,7 +9,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 //import java.awt.Image;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GamePanel extends game.GamePanel {
     private static final int width = 900, height = 600;
@@ -68,7 +67,7 @@ public class GamePanel extends game.GamePanel {
             
             //Delete 'old' asteroids
             double distance = Math.pow(a.getX()-player.getX(),2)+Math.pow(a.getY()-player.getY(),2);
-            if (distance>=(width*3)*(width*3)){
+            if (distance>=(width*3)*(width*3) || a.destroyed()){
                 asteroids.remove(i);
                 i--;
                 continue;
@@ -83,12 +82,7 @@ public class GamePanel extends game.GamePanel {
             if (player.checkCollision(a)){
                 if (player.isMining()){
                     //Player mines the asteroid
-                    HashMap<String,Integer> resources = a.getResources();
-                    for (String k : resources.keySet()){
-                        Menu.resources.put(k,Menu.resources.getOrDefault(k, 0)+resources.get(k));
-                    }
-                    asteroids.remove(i);
-                    i--;
+                    player.mine(a);
                     if (tutorial == 7) tutorial++;
                 } else {
                     //Player bounces off asteroid
@@ -121,6 +115,7 @@ public class GamePanel extends game.GamePanel {
             player.setRotation(0);
             player.setVelocity(0,0);
             shop.open();
+            shop.addResources(player.clearInventory());
             if (tutorial == 8) tutorial++;
         }
 

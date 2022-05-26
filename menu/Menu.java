@@ -12,8 +12,8 @@ import java.util.HashMap;
 public class Menu {
     //Screen dimensions 900x600
     //I honestly dont know what the best way to do this is
-    public static HashMap<String,Integer> resources = new HashMap<String,Integer>();
-    public static int money = 0;
+    static HashMap<String,Integer> resources = new HashMap<String,Integer>();
+    static int money = 0;
 
     private boolean open = false;
     private int screenID;
@@ -65,6 +65,12 @@ public class Menu {
     }
     public void close(){ open = false; }
     public boolean isOpen(){ return open; }
+
+    public void addResources(HashMap<String,Integer> store){
+        for (String k : store.keySet()){
+            resources.put(k,store.get(k)+resources.getOrDefault(k, 0));
+        }
+    }
 
     public int getInteraction(int x, int y){
         if (!open) return 0;
@@ -143,7 +149,7 @@ public class Menu {
         }
     }
 
-    private void drawCentered(Graphics2D g,String text, int x, int y){
+    public static void drawCentered(Graphics2D g,String text, int x, int y){
         FontMetrics fm = g.getFontMetrics();
         Rectangle2D r = fm.getStringBounds(text, g);
         int X = x-((int) r.getWidth()) / 2;

@@ -2,7 +2,9 @@ package sprites;
 
 import game.GamePanel;
 import game.Sprite;
+import menu.Menu;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ public class Player extends Sprite {
     private HashMap<String,Integer> inventory = new HashMap<String,Integer>();
     private int stored = 0;
     private int capacity = 100;
-    private int beamLevel = 0;
+    private int beamLevel = 1;
     private int maxShield = 50;
     private int shield = 50;
     
@@ -52,6 +54,10 @@ public class Player extends Sprite {
     }
 
     public void mine(Asteroid a){
+        if (stored >= capacity){
+            bounce();
+            return;
+        }
         addResources(a.mine(beamLevel));
 
         if (!a.destroyed()){
@@ -75,13 +81,21 @@ public class Player extends Sprite {
         velY *= -1;
     }
 
+    public HashMap<String,Integer> clearInventory(){
+        HashMap<String,Integer> temp = inventory;
+        inventory = new HashMap<String,Integer>();
+        stored = 0;
+        return temp;
+    }
+
     private void addResources(HashMap<String,Integer> resources){
         for (String k : resources.keySet()){
             int toAdd = resources.get(k);
 
-            if (stored + toAdd > capacity){
-                toAdd = capacity - stored;
-            }
+            //if (stored + toAdd > capacity){
+            //    toAdd = capacity - stored;
+            //}
+            stored += toAdd;
             inventory.put(k,toAdd+inventory.getOrDefault(k,0));
         }
     }
@@ -126,6 +140,11 @@ public class Player extends Sprite {
 
     public void draw(Graphics2D g){
         super.draw(g);
+
+        if (stored >= capacity){
+            g.setColor(Color.WHITE);
+            Menu.drawCentered(g,"Inventory Full!",(int)x,(int)y-50);
+        }
 
         if (mining) beam.draw(g);
     }

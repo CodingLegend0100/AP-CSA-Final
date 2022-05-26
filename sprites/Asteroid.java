@@ -33,23 +33,23 @@ public class Asteroid extends Sprite {
         rotationSpeed = Math.random()*2-1;
 
         //Valuable materials have larger amounts further from the station?
-        resources.put("Iron",(int)(Math.random()*10+1));
-        resources.put("Gold",(int)(Math.random()*10+1));
-        resources.put("Hydrogen",(int)(Math.random()*10+1));
-        resources.put("Osmium",(int)(Math.random()*10+1));
-        resources.put("Lithium",(int)(Math.random()*10+1));
-        resources.put("Platinum",(int)(Math.random()*10+1));
-    }
+        startingResources.put("Iron",(int)(Math.random()*10+1));
+        startingResources.put("Gold",(int)(Math.random()*10+1));
+        startingResources.put("Hydrogen",(int)(Math.random()*10+1));
+        startingResources.put("Osmium",(int)(Math.random()*10+1));
+        startingResources.put("Lithium",(int)(Math.random()*10+1));
+        startingResources.put("Platinum",(int)(Math.random()*10+1));
 
-    public HashMap<String,Integer> getResources(){
-        return resources;
+        for (String k : startingResources.keySet()){
+            resources.put(k,startingResources.get(k));
+        }
     }
 
     public HashMap<String,Integer> mine(int strength){
         //Mine the asteroid for a portion of its resources
         HashMap<String,Integer> mined = new HashMap<String,Integer>();
         for (String k : startingResources.keySet()){
-            int toAdd = startingResources.getOrDefault(k, 0) * strength / 20; //Calculate resources to mine
+            int toAdd = startingResources.getOrDefault(k, 0) * strength / 10 + 1; //Calculate resources to mine
             toAdd = Math.min(toAdd,resources.getOrDefault(k,0));
             mined.put(k,toAdd);
             resources.put(k,resources.getOrDefault(k,0)-toAdd);
@@ -57,8 +57,8 @@ public class Asteroid extends Sprite {
 
         //Decrease size of the asteroid
         timesMined += strength;
-        width -= strength * initialWidth / 20;
-        height -= strength * initialHeight / 20;
+        width -= strength * initialWidth / 25;
+        height -= strength * initialHeight / 25;
 
         //Return the resources collected from mining
         return mined;
