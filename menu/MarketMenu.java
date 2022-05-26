@@ -29,6 +29,7 @@ public class MarketMenu {
     static int sellAmount = 1;
 
     static ButtonStyle style3 = new ButtonStyle().setFont(fontSize15).setFontColor(Color.WHITE);
+    static Button increaseAll = new Button("All",720,450,40,30,style3);
     static Button increase100 = new Button("+100",670,450,40,30,style3);
     static Button increase10 = new Button("+10",620,450,40,30,style3);
     static Button increase1 = new Button("+1",570,450,40,30,style3);
@@ -36,8 +37,9 @@ public class MarketMenu {
     static Button decrease1 = new Button("-1",450,450,40,30,style3);
     static Button decrease10 = new Button("-10",400,450,40,30,style3);
     static Button decrease100 = new Button("-100",350,450,40,30,style3);
+    static Button decreaseNone = new Button("None",300,450,40,30,style3);
 
-    static Button[] sellButtons = {decrease100,decrease10,decrease1,increase1,increase10,increase100};
+    static Button[] sellButtons = {decreaseNone,decrease100,decrease10,decrease1,increase1,increase10,increase100,increaseAll};
 
     public static void getInteraction(int x,int y){
         for (int i = 0; i < markets.length; i++){
@@ -50,9 +52,11 @@ public class MarketMenu {
         if (increase1.contains(x,y))        sellAmount += 1;
         else if (increase10.contains(x,y))  sellAmount += 10;
         else if (increase100.contains(x,y)) sellAmount += 100;
+        else if (increaseAll.contains(x,y)) sellAmount = Menu.resources.getOrDefault(markets[selected].textLines[0],0);
         else if (decrease1.contains(x,y))   sellAmount -= 1;
         else if (decrease10.contains(x,y))  sellAmount -= 10;
         else if (decrease100.contains(x,y)) sellAmount -= 100;
+        else if (decreaseNone.contains(x,y)) sellAmount = 0;
         if (sellAmount < 0) sellAmount = 0;
         if (sellAmount > Menu.resources.getOrDefault(markets[selected].textLines[0], 0))
             sellAmount = Menu.resources.getOrDefault(markets[selected].textLines[0], 0);

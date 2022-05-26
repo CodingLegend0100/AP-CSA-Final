@@ -38,12 +38,15 @@ public class Menu {
     //Buy buttons
     ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
     ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
-    Button upgradeHull = new Button(new String[]{"Hull","","Cost: "},110,110,150,50,canBuy);
-    Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},270,110,150,50,canBuy);
-    Button upgradeLazer = new Button(new String[]{"Mining Lazer","","Cost: "},430,110,150,50,canBuy);
+    Button upgradeShield = new Button(new String[]{"Shields","","Cost: "},135,110,150,50,canBuy);
+    Button upgradeEngines = new Button(new String[]{"Engines","","Cost: "},295,110,150,50,canBuy);
+    Button upgradeLazer = new Button(new String[]{"Mining Lazer","","Cost: "},455,110,150,50,canBuy);
+    Button upgradeCapacity = new Button(new String[]{"Hull Capacity","","Cost: "},615,110,150,50,canBuy);
+    Button newShip = new Button(new String[]{"Buy New Ship","","Cost:"},250,450,400,50,canBuy);
 
-    Button[] upgrades = {upgradeHull,upgradeEngines,upgradeLazer};
-    int[] buyCosts = {100,500,200};
+
+    Button[] upgrades = {upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity,newShip};
+    int[] buyCosts = {100,400,250,900,1000000};
 
     //Misc menu things
     Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
