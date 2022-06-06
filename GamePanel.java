@@ -1,13 +1,14 @@
 import game.Sprite;
 import menu.Menu;
 import sprites.Asteroid;
+import sprites.Enemy;
 import sprites.Player;
 import sprites.SpaceStation;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-//import java.awt.Image;
+import java.awt.Image;
 import java.util.ArrayList;
 
 public class GamePanel extends game.GamePanel {
@@ -17,23 +18,23 @@ public class GamePanel extends game.GamePanel {
     int tutorial = 0;
     int tutorialFrames = -1;
 
-    //private Image[] enemyImages = new Image[4];
+    private Image[] enemyImages = new Image[4];
 
     private ArrayList<Sprite> asteroids = new ArrayList<Sprite>();
     private ArrayList<Sprite> enemies = new ArrayList<Sprite>();  
     
     Player player = new Player(keyListener);
-    SpaceStation station = new SpaceStation();
-    Menu shop = new Menu();
-
+    Sprite station = new Sprite("assets/station.png",0,0,200,200);
 
     public GamePanel(){
         super(width,height,FPS);
+
+        station.setRotationSpeed(0.001);
         
         //Load images
-        //for (int i = 1; i <= 4; i++){
-        //    enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
-        //}
+        for (int i = 1; i <= 4; i++){
+            enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
+        }
 
         //enemies.add(new Enemy(enemyImages[0],-75,150,player));
         //enemies.add(new Enemy(enemyImages[1],-25,150,player));
@@ -104,7 +105,7 @@ public class GamePanel extends game.GamePanel {
             if (tutorial == 4) tutorialFrames = 120;
         }
         
-        if (shop.isOpen()) return;
+        if (Menu.isOpen()) return;
 
         manageAsteroids();
         player.update();
@@ -114,8 +115,8 @@ public class GamePanel extends game.GamePanel {
             player.setPos(150,0);
             player.setRotation(0);
             player.setVelocity(0,0);
-            shop.open();
-            shop.addResources(player.clearInventory());
+            Menu.open();
+            Menu.addResources(player.clearInventory());
             if (tutorial == 8) tutorial++;
         }
 
@@ -129,7 +130,7 @@ public class GamePanel extends game.GamePanel {
     public void keyPressed(String key){
         //System.out.println(key);
         if (key.equals("Escape")){
-            shop.close();
+            Menu.close();
             if (tutorial == 9) tutorial++;
         }
 
@@ -149,7 +150,7 @@ public class GamePanel extends game.GamePanel {
     }
 
     public void mousePressed(int x, int y){
-        player.upgrade(shop.getInteraction(x, y));
+        player.upgrade(Menu.getInteraction(x, y));
     }
 
 
@@ -186,7 +187,7 @@ public class GamePanel extends game.GamePanel {
 
         //long drawTime = System.nanoTime() - drawStart;
         //g2.drawString("Draw Time: "+drawTime,10,10);
-        shop.draw(g2); //Draw shop menu
+        Menu.draw(g2); //Draw shop menu
 
         g2.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
         g2.setColor(Color.WHITE);

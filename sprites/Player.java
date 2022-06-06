@@ -11,11 +11,11 @@ import java.util.HashMap;
 public class Player extends Sprite {
     GamePanel.KeyInput k; //The key input handler
 
-    public static int UPGRADE_SHIP = 0;
-    public static int UPGRADE_SHIELD = 1;
-    public static int UPGRADE_SPEED = 2;
-    public static int UPGRADE_MINING = 3;
-    public static int UPGRADE_CAPACITY = 4;
+    public static final int UPGRADE_SHIP = 0;
+    public static final int UPGRADE_SHIELD = 1;
+    public static final int UPGRADE_SPEED = 2;
+    public static final int UPGRADE_MINING = 3;
+    public static final int UPGRADE_CAPACITY = 4;
 
     private Sprite beam = new Sprite("assets/beam.png",0,0,100,100);
     private boolean mining = false;
@@ -25,7 +25,8 @@ public class Player extends Sprite {
 
     private HashMap<String,Integer> inventory = new HashMap<String,Integer>();
     private int stored = 0;
-    private int capacity = 100;
+    private int capacity = 150;
+    
     private int beamLevel = 1;
     private int maxShield = 50;
     private int shield = 50;
@@ -39,18 +40,27 @@ public class Player extends Sprite {
     public boolean isMining(){ return mining; }
 
     public void upgrade(int upgrade){
-        if (upgrade == UPGRADE_SPEED){
-            acceleration += 0.05;
+
+        switch (upgrade){
+            case UPGRADE_SPEED:
+                acceleration += 0.05;
+                break;
+            
+            case UPGRADE_SHIELD:
+                shield += 10;
+                maxShield += 10;
+                break;
+
+            case UPGRADE_MINING:
+                beamLevel += 1;
+                break;
+
+            case UPGRADE_CAPACITY:
+                capacity += 25;
+                break;
+
         }
 
-        else if (upgrade == UPGRADE_SHIELD){
-            shield += 10;
-            maxShield += 10;
-        }
-
-        else if (upgrade == UPGRADE_MINING){
-            beamLevel += 1;
-        }
     }
 
     public void mine(Asteroid a){

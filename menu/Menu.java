@@ -15,64 +15,64 @@ public class Menu {
     static HashMap<String,Integer> resources = new HashMap<String,Integer>();
     static int money = 0;
 
-    private boolean open = false;
-    private int screenID;
+    private static boolean open = false;
+    private static int screenID;
 
-    final int MENU_SCREEN = 0;
-    final int UPGRADE_SCREEN = -1;
-    final int MARKET_SCREEN = 1;
+    public static final int MENU_SCREEN = 0;
+    public static final int UPGRADE_SCREEN = -1;
+    public static final int MARKET_SCREEN = 1;
 
     //Colors
-    Color DARK_GREEN = new Color(0,150,0);
-    Color DARK_RED = new Color(200,0,0);
+    static Color DARK_GREEN = new Color(0,150,0);
+    static Color DARK_RED = new Color(200,0,0);
 
     //Fonts
-    Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
-    Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
-    Font fontSize15 = new Font(Font.DIALOG,Font.BOLD,15);
+    static Font fontSize50 = new Font(Font.DIALOG,Font.PLAIN,50);
+    static Font fontSize25 = new Font(Font.DIALOG,Font.PLAIN,25);
+    static Font fontSize15 = new Font(Font.DIALOG,Font.BOLD,15);
 
-    Button upgradeBtn = new Button("Upgrades",150,250,250,100,
+    static Button upgradeBtn = new Button("Upgrades",150,250,250,100,
                                 new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_GREEN));
 
-    Button marketBtn = new Button("Market",500,250,250,100,
+    static Button marketBtn = new Button("Market",500,250,250,100,
                                 new ButtonStyle().setFont(fontSize50).setFontColor(Color.WHITE).setBackground(DARK_RED));
     //Buy buttons
-    ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
-    ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
-    Button upgradeShield = new Button(new String[]{"Shields ","","Cost: "},135,110,150,50,canBuy);
-    Button upgradeEngines = new Button(new String[]{"Engines ","","Cost: "},295,110,150,50,canBuy);
-    Button upgradeLazer = new Button(new String[]{"Mining Lazer ","","Cost: "},455,110,150,50,canBuy);
-    Button upgradeCapacity = new Button(new String[]{"Hull Capacity ","","Cost: "},615,110,150,50,canBuy);
-    Button newShip = new Button(new String[]{"Buy New Ship ","","Cost:"},250,450,400,50,canBuy);
+    static ButtonStyle cantAfford = new ButtonStyle().setFont(fontSize15).setBackground(DARK_RED).setArcSize(10);
+    static ButtonStyle canBuy = new ButtonStyle().setFont(fontSize15).setBackground(DARK_GREEN).setArcSize(10);
+    static Button upgradeShield = new Button(new String[]{"Shields ","","Cost: "},135,110,150,50,canBuy);
+    static Button upgradeEngines = new Button(new String[]{"Engines ","","Cost: "},295,110,150,50,canBuy);
+    static Button upgradeLazer = new Button(new String[]{"Mining Lazer ","","Cost: "},455,110,150,50,canBuy);
+    static Button upgradeCapacity = new Button(new String[]{"Hull Capacity ","","Cost: "},615,110,150,50,canBuy);
+    static Button newShip = new Button(new String[]{"Buy New Ship ","","Cost:"},250,450,400,50,canBuy);
 
 
-    Button[] upgrades = {newShip,upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity};
-    int[] buyCosts = {1_000_000,100,400,250,900};
-    int[] levelIncrease = {750_000,50,0,0,0}; //Price will increase by this amount*level
-    int[] priceIncreaseConst = {500_000,0,0,0,0}; //Price will always increase by this amount
+    static Button[] upgrades = {newShip,upgradeShield,upgradeEngines,upgradeLazer,upgradeCapacity};
+    static int[] buyCosts = {100_000,100,400,250,900};
+    static int[] levelIncrease = {25_000,15,0,20,10}; //Price will increase by this amount*level
+    static int[] priceIncreaseConst = {10_000,50,100,75,50}; //Price will always increase by this amount
     
-    int[] upgradeLevels = new int[upgrades.length]; //Current level of the upgrade
-    int[] maxLevels = {10,10,10,10,10}; //Max level of the upgrade
+    static int[] upgradeLevels = new int[upgrades.length]; //Current level of the upgrade
+    static int[] maxLevels = {10,10,10,10,10}; //Max level of the upgrade
 
     //Misc menu things
-    Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
-    Sprite back = new Sprite(Sprite.loadImage("assets/back_arrow.png"),80,80,30,30);
+    static Sprite exit = new Sprite(Sprite.loadImage("assets/x.png"),80,80,30,30);
+    static Sprite back = new Sprite(Sprite.loadImage("assets/back_arrow.png"),80,80,30,30);
 
 
-    public void open(){
+    public static void open(){
         open = true;
         screenID = MENU_SCREEN;
     }
-    public void close(){ open = false; }
-    public boolean isOpen(){ return open; }
+    public static void close(){ open = false; }
+    public static boolean isOpen(){ return open; }
 
-    public void addResources(HashMap<String,Integer> store){
+    public static void addResources(HashMap<String,Integer> store){
         for (String k : store.keySet()){
             resources.put(k,store.get(k)+resources.getOrDefault(k, 0));
         }
     }
 
-    public int getInteraction(int x, int y){
+    public static int getInteraction(int x, int y){
         if (!open) return 0;
 
         if (screenID == MENU_SCREEN){
@@ -106,7 +106,7 @@ public class Menu {
         return -1;
     }
 
-    public void draw(Graphics2D g){
+    public static void draw(Graphics2D g){
         if (!open) return;
 
         //Draw the window

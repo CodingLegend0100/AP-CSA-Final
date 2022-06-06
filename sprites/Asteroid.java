@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Asteroid extends Sprite {
 
+    private static String[] resourceTypes = {"Iron","Gold","Lithium","Osmium","Hydrogen","Platinum"};
     private static Image[] asteroidImages = new Image[3];
     static {  
         //Load images 
@@ -15,16 +16,21 @@ public class Asteroid extends Sprite {
 
     private HashMap<String,Integer> startingResources = new HashMap<String,Integer>(); 
     private HashMap<String,Integer> resources = new HashMap<String,Integer>();
+    private int resourceCount;
     private int initialWidth, initialHeight;
-    private int timesMined;
 
     public Asteroid(double x, double y){
         
         super(
             asteroidImages[(int)(Math.random()*asteroidImages.length)], //Random asteroid image
-            x,y,   //Position
-            Math.random()*.3+.3 //Image Scale
+            x,y   //Position
         );
+
+        double scale = Math.random()*.3+.3; //Set the scale
+
+        //Scale the width and height
+        width *= scale;
+        height *= scale;
 
         initialWidth = width;
         initialHeight = height;
@@ -32,16 +38,19 @@ public class Asteroid extends Sprite {
         rotation = Math.random()*360+1;
         rotationSpeed = Math.random()*2-1;
 
-        //Valuable materials have larger amounts further from the station?
-        startingResources.put("Iron",(int)(Math.random()*10+1));
-        startingResources.put("Gold",(int)(Math.random()*10+1));
-        startingResources.put("Hydrogen",(int)(Math.random()*10+1));
-        startingResources.put("Osmium",(int)(Math.random()*10+1));
-        startingResources.put("Lithium",(int)(Math.random()*10+1));
-        startingResources.put("Platinum",(int)(Math.random()*10+1));
+        //Use the scale to generate larger amounts of resources
+        scale *= 10;
+        scale /= 3;
+        //System.out.println(scale);
 
-        for (String k : startingResources.keySet()){
-            resources.put(k,startingResources.get(k));
+        //Valuable materials have larger amounts further from the station
+        //Generate more resources further from the station
+        double distanceBonus = 1 + (x*x+y*y) / 1_000_000_000;
+        for (String r : resourceTypes){
+            int amount = (int)(Math.random()*10*scale*distanceBonus+1);
+            startingResources.put(r,amount);
+            resources.put(r,amount);
+            resourceCount += amount;
         }
     }
 
@@ -53,10 +62,10 @@ public class Asteroid extends Sprite {
             toAdd = Math.min(toAdd,resources.getOrDefault(k,0));
             mined.put(k,toAdd);
             resources.put(k,resources.getOrDefault(k,0)-toAdd);
+            resourceCount -= toAdd;
         }
 
         //Decrease size of the asteroid
-        timesMined += strength;
         width -= strength * initialWidth / 25;
         height -= strength * initialHeight / 25;
 
@@ -65,6 +74,6 @@ public class Asteroid extends Sprite {
     }
 
     public boolean destroyed(){
-        return timesMined >= 20;
+        return resourceCount == 0;
     }
 }
