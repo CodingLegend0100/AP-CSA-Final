@@ -16,6 +16,19 @@ public class GamePanel extends game.GamePanel {
 
     int tutorial = 0;
     int tutorialFrames = -1;
+    String[] tutorialMsg = {
+        "Welcome trainee! To begin piloting, press W to move forward",
+        "Use the A and D keys to turn",
+        "Now hold S to go backwards",
+        "Great! Now you've mastered the basics of piloting.",
+        "Now its time to mine",
+        "Run into the nearest asteroid",
+        "Now hold space to activate the mining lazer",
+        "Hit an asteroid with the lazer to mine it",
+        "Perfect! Follow the white dot back to the station",
+        "This is the station, here you can sell materials to upgrade your ship"
+    };
+
 
     private Image[] enemyImages = new Image[4];
 
@@ -24,6 +37,7 @@ public class GamePanel extends game.GamePanel {
     
     Player player = new Player(keyListener);
     Sprite station = new Sprite("assets/station.png",0,0,200,200);
+
 
     public GamePanel(){
         super(width,height,FPS);
@@ -35,10 +49,10 @@ public class GamePanel extends game.GamePanel {
             enemyImages[i-1] = Sprite.loadImage("assets/pirate"+i+".png");
         }
 
-        //enemies.add(new Enemy(enemyImages[0],-75,150,player));
-        //enemies.add(new Enemy(enemyImages[1],-25,150,player));
-        //enemies.add(new Enemy(enemyImages[2],25,150,player));
-        //enemies.add(new Enemy(enemyImages[3],75,150,player));
+        enemies.add(new Enemy(enemyImages[0],-75,150,player));
+        enemies.add(new Enemy(enemyImages[1],-25,150,player));
+        enemies.add(new Enemy(enemyImages[2],25,150,player));
+        enemies.add(new Enemy(enemyImages[3],75,150,player));
 
         start();
     }
@@ -190,17 +204,7 @@ public class GamePanel extends game.GamePanel {
 
         g2.setFont(new Font(Font.DIALOG,Font.PLAIN,20));
         g2.setColor(Color.WHITE);
-        if (tutorial == 0) g2.drawString("Welcome trainee! To begin piloting, press W to move forward",10,25);
-        if (tutorial == 1) g2.drawString("Use the A and D keys to turn",10,25);
-        if (tutorial == 2) g2.drawString("Now hold S to go backwards",10,25);
-        if (tutorial == 3) g2.drawString("Great! Now you've mastered the basics of piloting.",10,25);
-        if (tutorial == 4) g2.drawString("Now its time to mine",10,25);
-        if (tutorial == 5) g2.drawString("Run into the nearest asteroid",10,25);
-        if (tutorial == 6) g2.drawString("Now hold space to activate the mining lazer",10,25);
-        if (tutorial == 7) g2.drawString("Hit an asteroid with the lazer to mine it",10,25);
-        if (tutorial == 8) g2.drawString("Perfect! Follow the white dot back to the station",10,25);
-        if (tutorial == 9) g2.drawString("This is the station, here you can sell materials to upgrade your ship",10,25);
-
+        if (tutorial < tutorialMsg.length) g2.drawString(tutorialMsg[tutorial],10,25);
 
         g2.dispose(); //Get rid of the graphics when we are done
     }
